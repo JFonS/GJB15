@@ -5,7 +5,6 @@ float Level::cameraSpeed = 25.0;
 Level::Level(string levelName) : Scene(levelName)
 {
     name = levelName;
-    DbgLog("created");
     loadFromFile("assets/tileset.png", "assets/testTileMap.tmx");
 
     Image img = Image();
@@ -24,7 +23,7 @@ Level::Level(string levelName) : Scene(levelName)
     {
         if(tiles[i] > 0)
         {
-            Block *block = new Block();
+            Block *block = new Block(tiles[i]);
             block->Sprite::setTexture(tileTextures[tiles[i]-1]);
             blocks.push_back(block);
             addChild(block);

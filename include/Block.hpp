@@ -6,12 +6,18 @@
 #include "PEvent.hpp"
 #include "Debug.hpp"
 
+#define SOLID 1
+
 class Block : public GameObject
 {
+private:
+    int type;
+
 public:
-    Block();
+    Block(int type);
     virtual ~Block();
 
+    int GetType();
     virtual void onUpdate(float dt);
 };
 
