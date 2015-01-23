@@ -3,6 +3,8 @@
 
 #include "../include/MovieClip.hpp"
 #include "../include/Debug.hpp"
+#include "../include/PeezyWin.hpp"
+#include "../include/Level.hpp"
 
 class Player : public MovieClip {
 public:
@@ -15,9 +17,11 @@ private:
     bool canJump;
 
     void hitFloor(float height);
+    void hitCeil(float height);
     void jump();
 
     void onKeyDown(PEvent &e);
+    void checkCollisions();
 
     static float maxRunSpeed, maxJumpSpeed, gravity, friction;
     Keyboard::Key jumpKey, leftKey, rightKey;

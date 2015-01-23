@@ -224,4 +224,20 @@ src/Player.o: src/Player.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
  /usr/include/c++/4.8/bits/fstream.tcc \
  src/../include/../include/PEvent.hpp src/../include/../include/Debug.hpp \
- src/../include/../include/Debug.hpp
+ src/../include/../include/Debug.hpp \
+ src/../include/../include/PeezyWin.hpp \
+ src/../include/../include/../include/Scene.hpp \
+ src/../include/../include/../include/Node.hpp \
+ src/../include/../include/../include/Level.hpp \
+ src/../include/../include/../include/ResourceManager.hpp \
+ src/../include/../include/../include/GameObject.hpp \
+ src/../include/../include/../include/Scene.hpp \
+ src/../include/../include/../include/Block.hpp \
+ src/../include/../include/../include/PEvent.hpp \
+ src/../include/../include/../include/Debug.hpp \
+ src/../include/../include/../include/MovieClip.hpp \
+ /usr/include/c++/4.8/stack /usr/include/c++/4.8/deque \
+ /usr/include/c++/4.8/bits/stl_deque.h \
+ /usr/include/c++/4.8/bits/deque.tcc \
+ /usr/include/c++/4.8/bits/stl_stack.h \
+ src/../include/../include/Level.hpp

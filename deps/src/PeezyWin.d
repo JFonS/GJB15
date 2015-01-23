@@ -233,4 +233,4 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  src/../include/Debug.hpp src/../include/GameObject.hpp \
  src/../include/ResourceManager.hpp src/../include/Scene.hpp \
  src/../include/ButtonText.hpp src/../include/PText.hpp \
- src/../include/Player.hpp
+ src/../include/Player.hpp src/../include/../include/PeezyWin.hpp

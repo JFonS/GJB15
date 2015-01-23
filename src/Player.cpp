@@ -25,8 +25,7 @@ void Player::onUpdate(float dt)
         xSpeed = max(xSpeed, -maxRunSpeed);
     }
 
-    if (getGlobalBounds().top + getGlobalBounds().height > 600)
-        hitFloor(600); //!!!!!!
+    checkCollisions();
 }
 
 void Player::onKeyDown(PEvent &e) {
@@ -40,10 +39,31 @@ void Player::hitFloor(float height)
     canJump = true;
 }
 
+void Player::hitCeil(float height)
+{
+    setPosition(getPosition().x, height);
+    ySpeed = 0.0;
+}
+
 void Player::jump()
 {
     if (canJump) {
         ySpeed = -maxJumpSpeed;
         canJump = false;
+    }
+}
+
+void Player::checkCollisions()
+{
+    Level* l = (Level*) PeezyWin::peekScene();
+    for (Block* block : l->blocks) {
+        Rect<float> meRect = getGlobalBounds();
+        Rect<float> bRect = block->getGlobalBounds();
+        if (block->getGlobalBounds().intersects(meRect)) {
+            if (ySpeed > 0)
+                hitFloor(bRect.top);
+            else if(ySpeed < 0)
+                hitCeil(bRect.top + bRect.height);
+        }
     }
 }
