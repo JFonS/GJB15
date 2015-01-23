@@ -6,7 +6,7 @@ float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
-    :jumpKey(j), leftKey(l), rightKey(r), xSpeed(0), ySpeed(0), canJump(false){}
+    :xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r) {}
 
 void Player::onUpdate(float dt)
 {
