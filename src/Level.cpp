@@ -33,6 +33,16 @@ Level::Level(string levelName) : Scene(levelName)
         currentx += TILE_WIDTH;
         if(currentx >= LEVEL_WIDTH) { currenty += TILE_HEIGHT; currentx = 0; }
     }
+
+    player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
+    player1->addFrame("assets/bar.png");
+    addChild(player1);
+
+    player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
+    player2->addFrame("assets/bar.png");
+    addChild(player2);
+
+
 }
 
 

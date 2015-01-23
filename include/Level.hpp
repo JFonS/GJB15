@@ -5,6 +5,7 @@
 #include "GameObject.hpp"
 #include "Scene.hpp"
 #include "Block.hpp"
+#include "Player.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -17,6 +18,8 @@
 
 using namespace std;
 
+class Player;
+
 class Level : public Scene
 {
 private:
@@ -28,6 +31,8 @@ private:
     static float cameraSpeed;
 
     void onUpdate(float dt);
+
+    Player *player1, *player2;
 
 public:
 

@@ -4,7 +4,8 @@
 #include "../include/MovieClip.hpp"
 #include "../include/Debug.hpp"
 #include "../include/PeezyWin.hpp"
-#include "../include/Level.hpp"
+
+class Level;
 
 class Player : public MovieClip {
 public:
