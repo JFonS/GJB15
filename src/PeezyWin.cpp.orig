@@ -42,13 +42,18 @@ Scene* PeezyWin::peekScene(){
 
 void PeezyWin::startUp()
 {
-     Level *l = new Level("testLevel");
-    	this->pushScene(l);
+<<<<<<< HEAD
+    Scene *s = new Scene("esc1");
 
     Player *mc = new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
     mc->addFrame("assets/bar.png");
 
-   l->addChild(mc);
+    s->addChild(mc);
+    this->pushScene(s);
+=======
+    Level *l = new Level("testLevel");
+    this->pushScene(l);
+>>>>>>> e2397c574d82b8400dcbbbe10b20d89b95aa723b
 }
 
 void PeezyWin::loop(float dt)

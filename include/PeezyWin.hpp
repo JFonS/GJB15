@@ -3,6 +3,7 @@
 
 #include "../include/Debug.hpp"
 #include "../include/Scene.hpp"
+#include "../include/Level.hpp"
 #include "../include/MovieClip.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
