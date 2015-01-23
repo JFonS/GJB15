@@ -41,19 +41,8 @@ Scene* PeezyWin::peekScene(){
 
 void PeezyWin::startUp()
 {
-    Scene *s = new Scene("esc1");
-
-    MovieClip *mc = new MovieClip();
-    mc->addFrame("assets/frame1");
-    mc->addKeyFrame("assets/frame2", "salta");
-    mc->addFrame("assets/frame3");
-    mc->addFrame("assets/frame4");
-    mc->addKeyFrame("assets/frame5", "Fsalta");
-    mc->addFrame("assets/frame6");
-
-    s->addChild(mc);
-    this->pushScene(s);
-    mc->gotoAndPlay("salta");
+    Level *l = new Level("testLevel");
+    this->pushScene(l);
 }
 
 void PeezyWin::loop(float dt)
