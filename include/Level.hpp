@@ -25,10 +25,14 @@ private:
     Texture *tileTextures;
     string name;
     vector<int> tiles;
+    static float cameraSpeed;
+
+    void onUpdate(float dt);
 
 public:
 
     vector<Block*> blocks;
+
 
     Level(string levelName);
     ~Level();

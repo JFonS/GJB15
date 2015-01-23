@@ -29,3 +29,5 @@
 
 GJB15.*
 peezy
+deps/*
+*.swp

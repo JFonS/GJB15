@@ -6,7 +6,10 @@ float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
-    :xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r) {}
+    :xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
+{
+    setPosition(0, 400);
+}
 
 void Player::onUpdate(float dt)
 {
@@ -77,13 +80,12 @@ void Player::checkCollisions(float dt)
                 xSpeed = 0.0f;
             }
             else {
-            *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
-            if (bRect->intersects(*meRect))
-            {
-                DbgLog("TOCAAAAA" << rand());
-                if (ySpeed >= 0) hitFloor(bRect->top);
-                else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
-            }
+                *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
+                if (bRect->intersects(*meRect))
+                {
+                    if (ySpeed >= 0) hitFloor(bRect->top);
+                    else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
+                }
             }
         }
     }

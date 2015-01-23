@@ -1,5 +1,7 @@
 #include "../include/Level.hpp"
 
+float Level::cameraSpeed = 25.0;
+
 Level::Level(string levelName) : Scene(levelName)
 {
     name = levelName;
@@ -63,4 +65,8 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
     }
 
     DbgLog("FINISHED READING FILE");
+}
+
+void Level::onUpdate(float dt) {
+    camera.translate(dt*cameraSpeed, 0.0);
 }
