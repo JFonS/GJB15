@@ -37,6 +37,7 @@ Level::Level(string levelName) : Scene(levelName)
 
     player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
     player1->addFrame("assets/bar.png");
+    player1->isPlayerOne = true;
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
@@ -81,5 +82,12 @@ void Level::onUpdate(float dt) {
     camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
-    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) DbgLog("CACA" << rand());
+    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) {
+        player1->energy -= Player::regenSpeed;
+        player2->energy -= Player::regenSpeed;
+        ////// MIRAR SI ES MOR ALGU
+    } else {
+        player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
+        player2->energy = min(player2->energy + Player::regenSpeed, Player::maxEnergy);
+    }
 }
