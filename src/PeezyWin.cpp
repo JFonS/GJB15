@@ -6,6 +6,7 @@
 #include "../include/Player.hpp"
 
 SceneStack PeezyWin::scenes = SceneStack();
+RenderWindow* PeezyWin::window = nullptr;
 
 PeezyWin::PeezyWin(Vector2i size) {
     window = new RenderWindow(VideoMode(size.x, size.y), "");

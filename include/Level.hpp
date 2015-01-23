@@ -35,6 +35,7 @@ private:
     Player *player1, *player2;
 
 public:
+    static float maxDistance;
 
     vector<Block*> blocks;
 

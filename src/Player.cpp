@@ -90,3 +90,16 @@ void Player::checkCollisions(float dt)
         }
     }
 }
+
+
+void Player::onDraw(RenderTarget& target, const Transform& transform) {
+  GameObject::onDraw(target, transform);
+  sf::CircleShape shape(Level::maxDistance);
+  shape.setFillColor(Color::Transparent);
+  shape.setOutlineColor(Color::Blue);
+  shape.setOutlineThickness(3);
+  Transform circleTransform = getTransform() * transform;
+  circleTransform.translate(-Level::maxDistance,-Level::maxDistance);
+  circleTransform.translate(getGlobalBounds().width/2, getGlobalBounds().height/2);
+  target.draw(shape, circleTransform);
+}

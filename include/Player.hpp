@@ -14,6 +14,8 @@ public:
 
 private:
 
+    void onDraw(RenderTarget& target, const Transform& transform);
+
     float xSpeed, ySpeed;
     bool canJump;
 
