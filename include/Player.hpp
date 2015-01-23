@@ -21,7 +21,7 @@ private:
     void jump();
 
     void onKeyDown(PEvent &e);
-    void checkCollisions();
+    void checkCollisions(float dt);
 
     static float maxRunSpeed, maxJumpSpeed, gravity, friction;
     Keyboard::Key jumpKey, leftKey, rightKey;

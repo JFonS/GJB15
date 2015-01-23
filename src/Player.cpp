@@ -25,7 +25,7 @@ void Player::onUpdate(float dt)
         xSpeed = max(xSpeed, -maxRunSpeed);
     }
 
-    checkCollisions();
+    checkCollisions(dt);
 }
 
 void Player::onKeyDown(PEvent &e) {
@@ -53,17 +53,38 @@ void Player::jump()
     }
 }
 
-void Player::checkCollisions()
+void Player::checkCollisions(float dt)
 {
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks) {
-        Rect<float> meRect = getGlobalBounds();
-        Rect<float> bRect = block->getGlobalBounds();
-        if (block->getGlobalBounds().intersects(meRect)) {
-            if (ySpeed > 0)
-                hitFloor(bRect.top);
-            else if(ySpeed < 0)
-                hitCeil(bRect.top + bRect.height);
+
+        Rect<float> meRectObj = getGlobalBounds();
+        Rect<float> bRectObj = block->getGlobalBounds();
+        Rect<float> *meRect = &meRectObj;
+        Rect<float> *bRect = &bRectObj;
+
+        if (bRect->intersects(*meRect)) {
+
+            float lastXSpeed = xSpeed*dt, lastYSpeed = ySpeed*dt;
+            *meRect = Rect<float>(meRect->left, meRect->top - lastYSpeed, meRect->width, meRect->height);
+            if (bRect->intersects(*meRect))
+            {
+                if (lastXSpeed > 0) {
+                    setPosition(bRect->left - meRect->width, meRect->top);
+                } else {
+                    setPosition(bRect->left + bRect-> width, meRect->top);
+                }
+                xSpeed = 0.0f;
+            }
+            else {
+            *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
+            if (bRect->intersects(*meRect))
+            {
+                DbgLog("TOCAAAAA" << rand());
+                if (ySpeed >= 0) hitFloor(bRect->top);
+                else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
+            }
+            }
         }
     }
 }
