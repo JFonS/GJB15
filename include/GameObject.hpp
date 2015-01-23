@@ -30,7 +30,7 @@ private:
     string textureName;
     virtual void onDraw(RenderTarget& target, const Transform& transform);
     const Transform & getNodeTransform();
-
+protected:
     Rect<float> getBoundingBox();
 };
 

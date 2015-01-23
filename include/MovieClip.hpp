@@ -32,12 +32,19 @@ public:
     void addFrame(string texturePath);
     void addKeyFrame(string texturePath, string keyFrameName);
 
-    virtual void onUpdate(float dt);
+    virtual void onUpdate(float dt) = 0;
+
+    void update(float dt);
 
     void gotoAndPlay(string keyFrameName);
     void gotoAndStop(string keyFrameName);
     void play();
     void stop();
+
+    virtual void onKeyDown(PEvent &e);
+    virtual void onMouseEnter(PEvent &e);
+    virtual void onMouseExit(PEvent &e);
+    virtual void onMouseOver();
 
     int getKeyFrameNum(string keyFrameName);
 

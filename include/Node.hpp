@@ -46,9 +46,9 @@ protected:
   bool mouseIsOver;
 
   virtual void onDraw(RenderTarget& target, const Transform& transform) = 0;
-  virtual const Transform & getNodeTransform();
 
-  virtual void onUpdate(float dt) =0;
+
+  virtual void onUpdate(float dt){}
   virtual void onKeyDown(PEvent &e){}
   virtual void onKeyUp(PEvent &e){}
 
@@ -59,7 +59,8 @@ protected:
   virtual void onMouseDown(PEvent &e){}
   virtual void onMouseUp(PEvent &e){}
 
-  virtual Rect<float> getBoundingBox();
+  virtual const Transform & getNodeTransform() = 0;
+  virtual Rect<float> getBoundingBox() = 0;
 
   static bool zIndexSort(const Node* first, const Node* second);
 

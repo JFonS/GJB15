@@ -22,4 +22,13 @@ void Scene::draw(RenderTarget& target) {
   for (auto p : childrenOrder) p->draw(target, inverseCamera);
 }
 
+const Transform & Scene::getNodeTransform()
+{
+    return Transform::Identity;
+}
+
+Rect<float> Scene::getBoundingBox()
+{
+    return Rect<float>();
+}
 

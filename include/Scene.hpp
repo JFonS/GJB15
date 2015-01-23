@@ -23,6 +23,8 @@ public:
   Vector2i sceneToWin(Vector2i pos);
   Vector2i winToScene(Vector2i pos);
 private:
+  const Transform & getNodeTransform();
+  Rect<float> getBoundingBox();
   virtual void onDraw(RenderTarget& target, const Transform& transform);
   
 };

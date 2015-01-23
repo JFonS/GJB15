@@ -1,6 +1,11 @@
-src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
- src/../include/PeezyWin.hpp src/../include/../include/Debug.hpp \
- /usr/include/c++/4.8/iostream \
+src/Player.o: src/Player.cpp /usr/include/stdc-predef.h \
+ src/../include/Player.hpp src/../include/../include/MovieClip.hpp \
+ /usr/include/SFML/Graphics.hpp /usr/include/SFML/Window.hpp \
+ /usr/include/SFML/System.hpp /usr/include/SFML/Config.hpp \
+ /usr/include/SFML/System/Clock.hpp /usr/include/SFML/System/Export.hpp \
+ /usr/include/SFML/System/Time.hpp /usr/include/SFML/System/Err.hpp \
+ /usr/include/c++/4.8/ostream /usr/include/c++/4.8/ios \
+ /usr/include/c++/4.8/iosfwd \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -8,8 +13,7 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
- /usr/include/c++/4.8/ostream /usr/include/c++/4.8/ios \
- /usr/include/c++/4.8/iosfwd /usr/include/c++/4.8/bits/stringfwd.h \
+ /usr/include/c++/4.8/bits/stringfwd.h \
  /usr/include/c++/4.8/bits/memoryfwd.h \
  /usr/include/c++/4.8/bits/postypes.h /usr/include/c++/4.8/cwchar \
  /usr/include/wchar.h /usr/include/stdio.h \
@@ -101,17 +105,7 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
  /usr/include/c++/4.8/bits/locale_facets.tcc \
  /usr/include/c++/4.8/bits/basic_ios.tcc \
- /usr/include/c++/4.8/bits/ostream.tcc /usr/include/c++/4.8/istream \
- /usr/include/c++/4.8/bits/istream.tcc /usr/include/c++/4.8/sstream \
- /usr/include/c++/4.8/bits/sstream.tcc /usr/include/c++/4.8/fstream \
- /usr/include/c++/4.8/bits/codecvt.h \
- /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
- /usr/include/c++/4.8/bits/fstream.tcc /usr/include/SFML/Graphics.hpp \
- /usr/include/SFML/Window.hpp /usr/include/SFML/System.hpp \
- /usr/include/SFML/Config.hpp /usr/include/SFML/System/Clock.hpp \
- /usr/include/SFML/System/Export.hpp /usr/include/SFML/System/Time.hpp \
- /usr/include/SFML/System/Err.hpp \
+ /usr/include/c++/4.8/bits/ostream.tcc \
  /usr/include/SFML/System/InputStream.hpp \
  /usr/include/SFML/System/Lock.hpp \
  /usr/include/SFML/System/NonCopyable.hpp \
@@ -121,7 +115,8 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/4.8/ctime \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/4.8/bits/locale_facets_nonio.tcc \
+ /usr/include/libintl.h /usr/include/c++/4.8/bits/codecvt.h \
+ /usr/include/c++/4.8/bits/locale_facets_nonio.tcc \
  /usr/include/SFML/System/Thread.hpp /usr/include/SFML/System/Thread.inl \
  /usr/include/SFML/System/ThreadLocal.hpp \
  /usr/include/SFML/System/ThreadLocalPtr.hpp \
@@ -205,12 +200,7 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  /usr/include/SFML/Graphics/RectangleShape.hpp \
  /usr/include/SFML/Graphics/ConvexShape.hpp \
  /usr/include/SFML/Graphics/Sprite.hpp \
- /usr/include/SFML/Graphics/Text.hpp src/../include/../include/Scene.hpp \
- /usr/include/c++/4.8/list /usr/include/c++/4.8/bits/stl_list.h \
- /usr/include/c++/4.8/bits/list.tcc src/../include/../include/Node.hpp \
- src/../include/../include/../include/PEvent.hpp \
- src/../include/../include/../include/Debug.hpp \
- src/../include/../include/MovieClip.hpp \
+ /usr/include/SFML/Graphics/Text.hpp \
  src/../include/../include/ResourceManager.hpp \
  /usr/include/SFML/Audio.hpp /usr/include/SFML/Audio/Listener.hpp \
  /usr/include/SFML/Audio/Export.hpp /usr/include/SFML/Audio/Music.hpp \
@@ -223,13 +213,15 @@ src/PeezyWin.o: src/PeezyWin.cpp /usr/include/stdc-predef.h \
  /usr/include/SFML/Audio/SoundBufferRecorder.hpp \
  /usr/include/SFML/Audio/SoundRecorder.hpp \
  src/../include/../include/GameObject.hpp \
+ src/../include/../include/Node.hpp /usr/include/c++/4.8/list \
+ /usr/include/c++/4.8/bits/stl_list.h /usr/include/c++/4.8/bits/list.tcc \
+ src/../include/../include/../include/PEvent.hpp \
+ src/../include/../include/../include/Debug.hpp \
+ /usr/include/c++/4.8/iostream /usr/include/c++/4.8/istream \
+ /usr/include/c++/4.8/bits/istream.tcc /usr/include/c++/4.8/sstream \
+ /usr/include/c++/4.8/bits/sstream.tcc /usr/include/c++/4.8/fstream \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+ /usr/include/c++/4.8/bits/fstream.tcc \
  src/../include/../include/PEvent.hpp src/../include/../include/Debug.hpp \
- /usr/include/c++/4.8/stack /usr/include/c++/4.8/deque \
- /usr/include/c++/4.8/bits/stl_deque.h \
- /usr/include/c++/4.8/bits/deque.tcc \
- /usr/include/c++/4.8/bits/stl_stack.h src/../include/Debug.hpp \
- src/../include/GameObject.hpp src/../include/PText.hpp \
- src/../include/Debug.hpp src/../include/GameObject.hpp \
- src/../include/ResourceManager.hpp src/../include/Scene.hpp \
- src/../include/ButtonText.hpp src/../include/PText.hpp \
- src/../include/Player.hpp
+ src/../include/../include/Debug.hpp

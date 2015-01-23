@@ -17,8 +17,9 @@ MovieClip::~MovieClip()
     }
 }
 
-void MovieClip::onUpdate(float dt)
+void MovieClip::update(float dt)
 {
+    GameObject::update(dt);
     timeSinceLastFrame += dt;
     if(timeSinceLastFrame > timePerFrame)
     {
@@ -79,3 +80,12 @@ int MovieClip::getKeyFrameNum(string keyFrameName)
 {
     return keyFrames[keyFrameName];
 }
+
+
+void MovieClip::onKeyDown(PEvent &e) {}
+
+void MovieClip::onMouseEnter(PEvent &e){}
+
+void MovieClip::onMouseExit(PEvent &e){}
+
+void MovieClip::onMouseOver(){}

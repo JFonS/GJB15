@@ -3,6 +3,7 @@
 #include "../include/GameObject.hpp"
 #include "../include/PText.hpp"
 #include "../include/ButtonText.hpp"
+#include "../include/Player.hpp"
 
 SceneStack PeezyWin::scenes = SceneStack();
 
@@ -43,17 +44,11 @@ void PeezyWin::startUp()
 {
     Scene *s = new Scene("esc1");
 
-    MovieClip *mc = new MovieClip();
-    mc->addFrame("assets/frame1");
-    mc->addKeyFrame("assets/frame2", "salta");
-    mc->addFrame("assets/frame3");
-    mc->addFrame("assets/frame4");
-    mc->addKeyFrame("assets/frame5", "Fsalta");
-    mc->addFrame("assets/frame6");
+    Player *mc = new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
+    mc->addFrame("assets/bar.png");
 
     s->addChild(mc);
     this->pushScene(s);
-    mc->gotoAndPlay("salta");
 }
 
 void PeezyWin::loop(float dt)
