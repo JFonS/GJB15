@@ -24,6 +24,7 @@ public:
   static void popScene();
   static void changeScene(Scene* sc);
   static Scene* peekScene();
+  static RenderWindow* window;
 
 protected:
   void _loop();
@@ -31,7 +32,7 @@ protected:
   virtual void startUp();
   virtual void loop(float dt);
   
-  RenderWindow* window;
+
   static SceneStack scenes;
 };
 

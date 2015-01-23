@@ -6,6 +6,7 @@
 #include "../include/Player.hpp"
 
 SceneStack PeezyWin::scenes = SceneStack();
+RenderWindow* PeezyWin::window = nullptr;
 
 PeezyWin::PeezyWin(Vector2i size) {
     window = new RenderWindow(VideoMode(size.x, size.y), "");
@@ -43,12 +44,7 @@ Scene* PeezyWin::peekScene(){
 void PeezyWin::startUp()
 {
      Level *l = new Level("testLevel");
-    	this->pushScene(l);
-
-    Player *mc = new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
-    mc->addFrame("assets/bar.png");
-
-   l->addChild(mc);
+    this->pushScene(l);
 }
 
 void PeezyWin::loop(float dt)

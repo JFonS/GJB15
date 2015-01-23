@@ -5,6 +5,7 @@
 #include "GameObject.hpp"
 #include "Scene.hpp"
 #include "Block.hpp"
+#include "Player.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -16,6 +17,8 @@
 #define NUM_OF_DIF_TILES 3
 
 using namespace std;
+
+class Player;
 
 class Level : public Scene
 {
@@ -29,7 +32,10 @@ private:
 
     void onUpdate(float dt);
 
+    Player *player1, *player2;
+
 public:
+    static float maxDistance;
 
     vector<Block*> blocks;
 

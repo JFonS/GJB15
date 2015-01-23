@@ -28,10 +28,10 @@ private:
     void onMouseOver();
 
     string textureName;
-    virtual void onDraw(RenderTarget& target, const Transform& transform);
     const Transform & getNodeTransform();
 protected:
     Rect<float> getBoundingBox();
+    virtual void onDraw(RenderTarget& target, const Transform& transform);
 };
 
 #endif	/* GAMEOBJECT_HPP */

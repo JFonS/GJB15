@@ -1,6 +1,7 @@
 #include "../include/Level.hpp"
 
 float Level::cameraSpeed = 25.0;
+float Level::maxDistance = 200.0;
 
 Level::Level(string levelName) : Scene(levelName)
 {
@@ -33,6 +34,16 @@ Level::Level(string levelName) : Scene(levelName)
         currentx += TILE_WIDTH;
         if(currentx >= LEVEL_WIDTH) { currenty += TILE_HEIGHT; currentx = 0; }
     }
+
+    player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
+    player1->addFrame("assets/bar.png");
+    addChild(player1);
+
+    player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
+    player2->addFrame("assets/bar.png");
+    addChild(player2);
+
+
 }
 
 
@@ -68,4 +79,7 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
 
 void Level::onUpdate(float dt) {
     camera.translate(dt*cameraSpeed, 0.0);
+    float xd = player1->getPosition().x - player2->getPosition().x;
+    float yd = player1->getPosition().y - player2->getPosition().y;
+    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) DbgLog("CACA" << rand());
 }
