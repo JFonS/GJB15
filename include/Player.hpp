@@ -11,6 +11,9 @@ class Player : public MovieClip {
 public:
     Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r);
     void  onUpdate(float dt) override;
+    float energy;
+    static float maxEnergy, regenSpeed;
+    bool isPlayerOne;
 
 private:
 
