@@ -21,4 +21,11 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
+ <objectgroup name="Objects" width="50" height="14">
+  <object name="button1" type="Button" x="250" y="550" width="50" height="62">
+   <properties>
+    <property name="target" value="door1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

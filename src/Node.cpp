@@ -9,7 +9,6 @@ Node::Node(string n): name(n), zIndex(0), mouseIsOver(false) {}
 
 Node::~Node()
 {
-    DbgWarning("destroyed");
     for(auto it : childrenOrder)
     {
        delete it;
@@ -37,7 +36,6 @@ void Node::addChild(Node* go) {
 	}
 
 	children.insert(pair<string,Node*>(name,go));
-	DbgLog("Added " << name << " to " << this->name);  
 	childrenOrder.push_front(go);
 }
 
@@ -57,7 +55,8 @@ void Node::draw(RenderTarget& target, const Transform& parentTransform) {
 	for (auto p : childrenOrder) p->draw(target, combinedTransform);
 }
 
-void Node::update(float dt) {
+void Node::update(float dt)
+{
     this->onUpdate(dt);
     if(mouseIsOver) onMouseOver();
 	for (auto p : childrenOrder) p->update(dt);

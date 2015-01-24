@@ -11,11 +11,21 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
     setPosition(0, 400);
+    addKeyFrame(0, "runRight");
+    addKeyFrame(7, "FrunRight");
+    addKeyFrame(8, "runLeft");
+    addKeyFrame(15, "FrunLeft");
+    timePerFrame = 0.075f;
+    stop();
 }
 
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
+
+    if(abs(xSpeed) < 0.1f) gotoAndStop("runRight");
+    else if(xSpeed < 0) { /*if(!playing) gotoAndPlay("runLeft");*/ }
+    else if(xSpeed > 0) { if(!playing) gotoAndPlay("runRight"); }
 
     ySpeed = ySpeed + (gravity * dt);
     xSpeed = xSpeed * (1 - min(dt * friction, 1.0f));

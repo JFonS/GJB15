@@ -32,7 +32,7 @@ public:
   void removeChild(string name);
   void removeChild(Node* go);
   void draw(RenderTarget& target, const Transform& parentTransform);
-  void update(float dt);
+  virtual void update(float dt);
   
   void onEvent(PEvent &e);
 

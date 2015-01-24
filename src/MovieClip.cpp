@@ -17,6 +17,22 @@ MovieClip::~MovieClip()
     }
 }
 
+void MovieClip::loadSpriteSheet(string sspath, int nFrames)
+{
+    Image img = Image();
+    img.loadFromFile(sspath);
+
+    int stride = img.getSize().x / nFrames;
+    Rect<int> tileImgFrame(0, 0, stride, img.getSize().y);
+    for(int i = 0; i < nFrames; ++i)
+    {
+        textures.push_back(new Texture());
+        textures[i]->loadFromImage(img, tileImgFrame);
+        tileImgFrame = Rect<int>(tileImgFrame.left + stride, 0, stride, img.getSize().y);
+    }
+    Sprite::setTexture(*textures[0]);
+}
+
 void MovieClip::update(float dt)
 {
     GameObject::update(dt);
@@ -38,18 +54,12 @@ void MovieClip::update(float dt)
             }
         }
     }
+    if(!playing) timeSinceLastFrame = 0;
 }
 
-void MovieClip::addFrame(string texturePath)
+void MovieClip::addKeyFrame(int n, string keyFrameName)
 {
-    textures.push_back(&ResourceManager::getTexture(texturePath));
-    if(textures.size() == 1) Sprite::setTexture(*textures[currentFrame]);
-}
-
-void MovieClip::addKeyFrame(string texturePath, string keyFrameName)
-{
-    textures.push_back(&ResourceManager::getTexture(texturePath));
-    keyFrames[keyFrameName] = textures.size()-1;
+    keyFrames[keyFrameName] = n;
 }
 
 void MovieClip::gotoAndPlay(string keyFrameName)
@@ -80,7 +90,6 @@ int MovieClip::getKeyFrameNum(string keyFrameName)
 {
     return keyFrames[keyFrameName];
 }
-
 
 void MovieClip::onKeyDown(PEvent &e) {}
 

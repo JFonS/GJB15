@@ -36,12 +36,12 @@ Level::Level(string levelName) : Scene(levelName)
     }
 
     player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
-    player1->addFrame("assets/bar.png");
+    player1->loadSpriteSheet("assets/pluslyreduced.png", 8);
     player1->isPlayerOne = true;
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
-    player2->addFrame("assets/bar.png");
+    player2->loadSpriteSheet("assets/lesslyreduced.png", 8);
     addChild(player2);
 
     EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);
@@ -74,8 +74,6 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
     {
         cout << tiles[i] << ",";
     }
-
-    DbgLog("FINISHED READING FILE");
 }
 
 void Level::onUpdate(float dt)
