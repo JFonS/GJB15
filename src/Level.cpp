@@ -7,7 +7,7 @@ float Level::maxDistance = 200.0;
 Level::Level(string levelName) : Scene(levelName)
 {
     name = levelName;
-    loadFromFile("assets/newtileset.png", "assets/testTileMap.tmx");
+    loadFromFile("assets/newtileset.png", "assets/level3.tmx");
 
     Image img = Image();
     img.loadFromFile("assets/newtileset.png");

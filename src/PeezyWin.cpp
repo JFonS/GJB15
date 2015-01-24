@@ -58,7 +58,7 @@ void PeezyWin::startUp()
     mainMenu->addChild(playButton);
     this->pushScene(mainMenu);
 
-    level1 = new Level("testLevel");
+    level1 = new Level("level2");
 
     intro = new Intro();
 }
