@@ -6,10 +6,10 @@ float Level::maxDistance = 200.0;
 Level::Level(string levelName) : Scene(levelName)
 {
     name = levelName;
-    loadFromFile("assets/tileset.png", "assets/testTileMap.tmx");
+    loadFromFile("assets/tilemaap.png", "assets/testTileMap.tmx");
 
     Image img = Image();
-    img.loadFromFile("assets/tileset.png");
+    img.loadFromFile("assets/tilemaap.png");
 
     Rect<int> tileImgFrame(0, 0, TILE_WIDTH, TILE_HEIGHT);
     tileTextures = new Texture[NUM_OF_DIF_TILES];
