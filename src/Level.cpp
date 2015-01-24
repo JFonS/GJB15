@@ -1,5 +1,6 @@
 #include "../include/Level.hpp"
 
+float Level::c = 0.0f;
 float Level::cameraSpeed = 25.0;
 float Level::maxDistance = 200.0;
 
@@ -108,6 +109,7 @@ void Level::onKeyDown(PEvent &e)
 
 void Level::onUpdate(float dt)
 {
+    c += dt;
     camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;

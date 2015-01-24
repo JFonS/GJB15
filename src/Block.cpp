@@ -12,16 +12,34 @@ Block::~Block()
 
 void Block::onUpdate(float dt)
 {
-    if(isButton(GetType()) || GetType() == DEATH || isPalanca(GetType()))
+    Level *l = (Level*) PeezyWin::peekScene();
+    bool touchingPlayer1 = l->player1->hitting(this), touchingPlayer2 = l->player2->hitting(this);
+    if(touchingPlayer1 || touchingPlayer2)
     {
-        Level *l = (Level*) PeezyWin::peekScene();
-        if(l->player1->hitting(this) || l->player2->hitting(this))
+        if(isPortal(GetType()))
         {
-            if (isButton(GetType()) || isPalanca(GetType())) enabled = false;
-            else l->Reset();
+           Block *destinyPortal = nullptr;
+            for(Block *b : l->blocks)
+            {
+                if(this != b && isPortal(b->GetType()) &&
+                   getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
+                {
+                    destinyPortal = b;
+                    break;
+                }
+            }
+
+            if(destinyPortal != nullptr)
+            {
+                if(touchingPlayer1) l->player1->gotoPortal(destinyPortal);
+                else l->player2->gotoPortal(destinyPortal);
+            }
         }
-        else if (isButton(GetType())) enabled = true;
+
+        if (isButton(GetType()) || isPalanca(GetType()) || isPortal(GetType())) enabled = false;
+        else if(GetType() == DEATH) l->Reset();
     }
+    else if ( isButton(GetType())) enabled = true;
 }
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
@@ -60,7 +78,7 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
         }
     }
 
-    if(enabled || isPalanca(type) || isButton(type))
+    if(enabled || isPalanca(type) || isButton(type) || isPortal(type))
     {
         GameObject::onDraw(target, transform);
     }
@@ -84,5 +102,6 @@ int Block::getObjectIndex(int type) {
     if (isDoor(type)) return type - DOOR_START;
     if (isPalanca(type)) return type - PALANCA_START;
     if (isButton(type)) return type - BUTTON_START;
+    if (isPortal(type)) return type - PORTAL_START;
     return -1;
 }

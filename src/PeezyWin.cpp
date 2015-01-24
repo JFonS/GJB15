@@ -5,13 +5,17 @@
 #include "../include/ButtonText.hpp"
 #include "../include/Player.hpp"
 
+Scene *PeezyWin::mainMenu = nullptr;
+Level *PeezyWin::level1 = nullptr;
 SceneStack PeezyWin::scenes = SceneStack();
 RenderWindow* PeezyWin::window = nullptr;
 
 int PeezyWin::winHeight = 700, PeezyWin::winWidth = 1200;
 
-PeezyWin::PeezyWin(Vector2i size) {
+PeezyWin::PeezyWin(Vector2i size)
+{
     window = new RenderWindow(VideoMode(size.x, size.y), "");
+    startUp();
 }
 
 PeezyWin::~PeezyWin()
@@ -46,8 +50,14 @@ Scene* PeezyWin::peekScene(){
 
 void PeezyWin::startUp()
 {
-     Level *l = new Level("testLevel");
-    this->pushScene(l);
+    mainMenu = new Scene("mainMenu");
+    ButtonText *playButton = new ButtonText();
+    playButton->setString("PLAY");
+    playButton->downFunction = [](){PeezyWin::popScene(); PeezyWin::pushScene(PeezyWin::level1);};
+    mainMenu->addChild(playButton);
+    this->pushScene(mainMenu);
+
+    level1 = new Level("testLevel");
 }
 
 void PeezyWin::loop(float dt)
