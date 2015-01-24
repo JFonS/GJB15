@@ -26,6 +26,7 @@ public:
   static Scene* peekScene();
   static RenderWindow* window;
 
+  static int winWidth, winHeight;
 protected:
   void _loop();
    

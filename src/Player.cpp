@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 50.0;
+float Player::regenSpeed = 10.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
@@ -29,8 +29,7 @@ void Player::setHitbox() {
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
-    hitBox->setPosition(getPosition().x + hitOffset,getPosition().y);
-    //if (isPlayerOne) DbgLog(getPosition() << hitBox->getPosition());
+    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
 
     checkCollisions(dt);
 
@@ -55,6 +54,7 @@ void Player::onUpdate(float dt)
     }
     else if(xSpeed < 0 && (lookingRight  || !playing)) { lookingRight = false; gotoAndPlay("runLeft"); }
     else if(xSpeed > 0 && (!lookingRight || !playing)) { lookingRight = true;  gotoAndPlay("runRight"); }
+    updateHitbox();
 }
 
 void Player::onKeyDown(PEvent &e) {
@@ -83,6 +83,15 @@ void Player::jump()
     }
 }
 
+bool Player::hitting(const Block *b)
+{
+    Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
+    pRect.height += 2.0f;
+    Rect<float> oRect = b->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
+
+    return pRect.intersects(oRect);
+}
+
 void Player::onKeyUp(PEvent &e)
 {
 
@@ -96,28 +105,32 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
+        if(isDoor(block->GetType()) && !block->enabled)  continue;
+
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
 
-        if (pRect.intersects(oRect)) {
-            hitBox->move(0.0,-ySpeed * dt);
+        if (pRect.intersects(oRect))
+        {
+            const float mult = 1.1f;
+            //MOVEMENT HANDLE
+            hitBox->move(0.0,-ySpeed * dt * mult);
             if (hitBox->getGlobalBounds().intersects(oRect)) {
-                hitBox->move(0.0,ySpeed * dt);
+                hitBox->move(0.0,ySpeed * dt * mult);
                 //PROBLEMA EN LES X
                 if (xSpeed > 0) {
                     setPosition(oRect.left - pRect.width - hitOffset, getPosition().y);
                     updateHitbox();
-                } else {
+                } else if(xSpeed < 0){
                     setPosition(oRect.left + oRect.width - hitOffset, getPosition().y);
                     updateHitbox();
                 }
             } else {
-                hitBox->move(0.0,ySpeed * dt);
+                hitBox->move(0.0,ySpeed * dt * mult);
                 //PROBLEMA EN LES Y
-
                 if(ySpeed > 0) {
                     hitFloor(block->getPosition().y);
-                } else {
+                } else if(ySpeed < 0){
                     hitCeil(block->getPosition().y + block->getLocalBounds().height);
                 }
                 updateHitbox();
@@ -127,7 +140,8 @@ void Player::checkCollisions(float dt)
 }
 
 
-void Player::onDraw(RenderTarget& target, const Transform& transform) {
+void Player::onDraw(RenderTarget& target, const Transform& transform)
+{
   GameObject::onDraw(target, transform);
   sf::CircleShape shape(Level::maxDistance);
   shape.setFillColor(Color::Transparent);
