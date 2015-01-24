@@ -3,9 +3,11 @@
 
 #include "../include/MovieClip.hpp"
 #include "../include/Debug.hpp"
+#include "../include/Block.hpp"
 #include "../include/PeezyWin.hpp"
 
 class Level;
+class Block;
 
 class Player : public MovieClip {
 public:
@@ -17,6 +19,7 @@ public:
     RectangleShape* hitBox;
     float hitOffset;
     void setHitbox();
+    bool hitting(const Block *b);
 
 private:
 

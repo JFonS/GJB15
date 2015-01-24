@@ -15,7 +15,7 @@
 #define TILE_HEIGHT 50
 #define LEVEL_WIDTH 50 * TILE_WIDTH
 #define LEVEL_HEIGHT 14 * TILE_HEIGHT
-#define NUM_OF_DIF_TILES 6
+#define NUM_OF_DIF_TILES 40
 
 class Block;
 
@@ -35,12 +35,10 @@ private:
 
     void onUpdate(float dt);
 
-    Player *player1, *player2;
-
 public:
-    static bool buttonPressed;
     static float maxDistance;
 
+    Player *player1, *player2;
     vector<Block*> blocks;
 
 

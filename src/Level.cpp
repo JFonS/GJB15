@@ -1,16 +1,15 @@
 #include "../include/Level.hpp"
 
-bool Level::buttonPressed = false;
 float Level::cameraSpeed = 25.0;
 float Level::maxDistance = 200.0;
 
 Level::Level(string levelName) : Scene(levelName)
 {
     name = levelName;
-    loadFromFile("assets/tilemaap.png", "assets/testTileMap.tmx");
+    loadFromFile("assets/newtileset.png", "assets/testTileMap.tmx");
 
     Image img = Image();
-    img.loadFromFile("assets/tilemaap.png");
+    img.loadFromFile("assets/newtileset.png");
 
     Rect<int> tileImgFrame(0, 0, TILE_WIDTH, TILE_HEIGHT);
     tileTextures = new Texture[NUM_OF_DIF_TILES];
@@ -56,13 +55,13 @@ Level::Level(string levelName) : Scene(levelName)
 
     GameObject *bg = new GameObject("bg");
     Texture *bgTex = new Texture();
+    bgTex->create(LEVEL_WIDTH, LEVEL_HEIGHT);
     bgTex->loadFromFile("assets/bg.png");
     bgTex->setRepeated(true);
     bg->setIndex(-1);
     addChild(bg);
 
     bg->Sprite::setTexture(*bgTex);
-    DbgLog(PeezyWin::winWidth << "_____");
     bg->Sprite::setTextureRect(IntRect(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT));
 }
 
@@ -109,8 +108,6 @@ void Level::onKeyDown(PEvent &e)
 
 void Level::onUpdate(float dt)
 {
-    buttonPressed = false;
-
     camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;

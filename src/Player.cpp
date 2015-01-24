@@ -83,6 +83,15 @@ void Player::jump()
     }
 }
 
+bool Player::hitting(const Block *b)
+{
+    Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
+    pRect.height += 3.0f;
+    Rect<float> oRect = b->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
+
+    return pRect.intersects(oRect);
+}
+
 void Player::onKeyUp(PEvent &e)
 {
 
@@ -128,11 +137,7 @@ void Player::checkCollisions(float dt)
             }
             //
 
-            if(isButton(block->GetType()))
-            {
-                Level::buttonPressed = true;
-            }
-            else if(isPalanca(block->GetType()))
+            if(isPalanca(block->GetType()))
             {
                 block->enabled = false;
             }

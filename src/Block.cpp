@@ -12,17 +12,55 @@ Block::~Block()
 
 void Block::onUpdate(float dt)
 {
-
+    if(isButton(GetType()))
+    {
+        Level *l = (Level*) PeezyWin::peekScene();
+        if(l->player1->hitting(this) || l->player2->hitting(this))
+        {
+            enabled = false;
+        }
+        else enabled = true;
+    }
 }
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
 {
-    if(isDoor(type))
+    Level *l = (Level*) PeezyWin::peekScene();
+
+    if(isButton(type) && !enabled)
     {
-        enabled = !Level::buttonPressed;
+        for(Block *b : l->blocks)
+        {
+            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
+            {
+                b->enabled = false;
+            }
+        }
+    }
+    else if(isButton(type))
+    {
+        for(Block *b : l->blocks)
+        {
+            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
+            {
+                b->enabled = true;
+            }
+        }
     }
 
-    if(enabled || isPalanca(type)) {
+    if(isPalanca(type) && !enabled)
+    {
+        for(Block *b : l->blocks)
+        {
+            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
+            {
+                b->enabled = false;
+            }
+        }
+    }
+
+    if(enabled || isPalanca(type) || isButton(type))
+    {
         GameObject::onDraw(target, transform);
     }
 
@@ -41,9 +79,9 @@ int Block::GetType()
     return type;
 }
 
-int Block::getObjectIndex(int n) {
-    if (isDoor(n)) return n - DOOR_START;
-    if (isPalanca(n)) return n - PALANCA_START;
-    if (isButton(n)) return n - BUTTON_START;
+int Block::getObjectIndex(int type) {
+    if (isDoor(type)) return type - DOOR_START;
+    if (isPalanca(type)) return type - PALANCA_START;
+    if (isButton(type)) return type - BUTTON_START;
     return -1;
 }
