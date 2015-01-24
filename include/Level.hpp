@@ -17,6 +17,8 @@
 #define LEVEL_HEIGHT 14 * TILE_HEIGHT
 #define NUM_OF_DIF_TILES 3
 
+class Block;
+
 using namespace std;
 
 class Player;
@@ -36,6 +38,7 @@ private:
     Player *player1, *player2;
 
 public:
+    static bool buttonPressed;
     static float maxDistance;
 
     vector<Block*> blocks;

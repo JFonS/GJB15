@@ -14,9 +14,13 @@ public:
     float energy;
     static float maxEnergy, regenSpeed;
     bool isPlayerOne, lookingRight;
-    Rect<float> hitBox;
+    RectangleShape* hitBox;
+    float hitOffset;
+    void setHitbox();
 
 private:
+
+    void updateHitbox();
 
     void onDraw(RenderTarget& target, const Transform& transform);
 
