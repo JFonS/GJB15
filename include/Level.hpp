@@ -6,6 +6,7 @@
 #include "Scene.hpp"
 #include "Block.hpp"
 #include "Player.hpp"
+#include "EnergyBar.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>

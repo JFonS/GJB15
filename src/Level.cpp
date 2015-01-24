@@ -44,16 +44,16 @@ Level::Level(string levelName) : Scene(levelName)
     player2->addFrame("assets/bar.png");
     addChild(player2);
 
-
+    EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);
+    b1->setIndex(200); b2->setIndex(200);
+    addChild(b1); addChild(b2);
 }
-
 
 Level::~Level()
 {
     for(int i = 0; i < int(blocks.size()); ++i) delete blocks[i];
     delete[] tileTextures;
 }
-
 
 void Level::loadFromFile(string tilesetFile, string tileMapFile)
 {
@@ -78,15 +78,18 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
     DbgLog("FINISHED READING FILE");
 }
 
-void Level::onUpdate(float dt) {
+void Level::onUpdate(float dt)
+{
     camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
-    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) {
-        player1->energy -= Player::regenSpeed;
-        player2->energy -= Player::regenSpeed;
+    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance)
+    {
+        player1->energy -= Player::regenSpeed; if(player1->energy < 0.0f) player1->energy = 0.0f;
+        player2->energy -= Player::regenSpeed; if(player2->energy < 0.0f) player2->energy = 0.0f;
         ////// MIRAR SI ES MOR ALGU
-    } else {
+    } else
+    {
         player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
         player2->energy = min(player2->energy + Player::regenSpeed, Player::maxEnergy);
     }
