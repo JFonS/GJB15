@@ -56,14 +56,14 @@ void Player::onKeyDown(PEvent &e) {
 
 void Player::hitFloor(float height)
 {
-    setPosition(getPosition().x, height - getGlobalBounds().height);
+    setPosition(getPosition().x, height - getGlobalBounds().height - 1.0f);
     ySpeed = 0.0;
     canJump = true;
 }
 
 void Player::hitCeil(float height)
 {
-    setPosition(getPosition().x, height);
+    setPosition(getPosition().x, height + 1.0f);
     ySpeed = 0.0;
 }
 
@@ -87,13 +87,13 @@ void Player::checkCollisions(float dt)
 
         Rect<float> meRectObj = Rect<float>(getGlobalBounds().left + getGlobalBounds().width/2 - hitBox.width/2, getGlobalBounds().top,
                                             hitBox.width, hitBox.height);
-        if(isPlayerOne) DbgLog(meRectObj.left << "," << meRectObj.top << "," << (meRectObj.left + meRectObj.width) << "," << (meRectObj.top + meRectObj.height));
+      //  if(isPlayerOne) DbgLog(meRectObj.left << "," << meRectObj.top << "," << (meRectObj.left + meRectObj.width) << "," << (meRectObj.top + meRectObj.height));
         Rect<float> bRectObj = block->getGlobalBounds();
         Rect<float> *meRect = &meRectObj;
         Rect<float> *bRect = &bRectObj;
 
-        if (bRect->intersects(*meRect)) {
-
+        if (bRect->intersects(*meRect))
+        {
             float lastXSpeed = xSpeed*dt, lastYSpeed = ySpeed*dt;
             *meRect = Rect<float>(meRect->left, meRect->top - lastYSpeed, meRect->width, meRect->height);
             if (bRect->intersects(*meRect))
@@ -105,12 +105,13 @@ void Player::checkCollisions(float dt)
                 }
                 xSpeed = 0.0f;
             }
-            else {
+            else
+            {
                 *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
                 if (bRect->intersects(*meRect))
                 {
-                    if (lastYSpeed >= 0) hitFloor(bRect->top);
-                    else if(lastYSpeed < 0) hitCeil(bRect->top + bRect->height);
+                    if (ySpeed >= 0) hitFloor(bRect->top);
+                    else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
                 }
             }
         }
