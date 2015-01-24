@@ -96,11 +96,13 @@ void Player::checkCollisions(float dt)
         {
             float lastXSpeed = xSpeed*dt, lastYSpeed = ySpeed*dt;
             *meRect = Rect<float>(meRect->left, meRect->top - lastYSpeed, meRect->width, meRect->height);
-            if (bRect->intersects(*meRect))
+            if (bRect->intersects(*meRect) && ySpeed >= 0)
             {
                 if (lastXSpeed > 0) {
+                    if(isPlayerOne) DbgLog("A");
                     setPosition(bRect->left - (getGlobalBounds().width/2 + hitBox.width/2), getGlobalBounds().top);
-                } else {
+                } else if(lastXSpeed < 0){
+                    if(isPlayerOne) DbgLog("V");
                     setPosition(bRect->left + bRect-> width - (getGlobalBounds().width/2 - hitBox.width/2), getGlobalBounds().top);
                 }
                 xSpeed = 0.0f;
@@ -110,8 +112,8 @@ void Player::checkCollisions(float dt)
                 *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
                 if (bRect->intersects(*meRect))
                 {
-                    if (ySpeed >= 0) hitFloor(bRect->top);
-                    else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
+                    if (ySpeed >= 0){ hitFloor(bRect->top); if(isPlayerOne) DbgLog("C");}
+                    else if(ySpeed < 0) { hitCeil(bRect->top + bRect->height); if(isPlayerOne) DbgLog("DEU"); }
                 }
             }
         }
