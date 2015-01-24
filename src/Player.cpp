@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 1.0;
+float Player::regenSpeed = 3.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
@@ -19,6 +19,9 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     addKeyFrame(15, "FrunLeft");
     timePerFrame = 0.05f;
     lookingRight = true;
+    shad = new Shader();
+    shad->loadFromFile("assets/frag", Shader::Fragment);
+    levelCompleted = false;
     stop();
 }
 
@@ -112,8 +115,9 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
-        if(isDoor(block->GetType() && !block->enabled))  continue;
+        if(isDoor(block->GetType()) && !block->enabled)  continue;
         if(isPortal(block->GetType())) continue;
+        if(block->GetType() == LIGHT) continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
@@ -153,9 +157,8 @@ void Player::onDraw(RenderTarget& target, const Transform& transform)
   Level *l = (Level*) PeezyWin::peekScene();
   sf::CircleShape shape(Level::maxDistance);
   Vector2f v = (l->player1->getPosition() - l->player2->getPosition());
-  float distIndex = sqrt(v.x*v.x + v.y*v.y);
-  distIndex = ((Level::maxDistance) / max(0.5f, distIndex));
-  float alphaIndex = abs(distIndex);
+  float dist = sqrt(v.x*v.x + v.y*v.y);
+  float alphaIndex = 0.3f;
   float minAlpha = 0.2f;
 
   if(isPlayerOne)
@@ -175,7 +178,24 @@ void Player::onDraw(RenderTarget& target, const Transform& transform)
   Transform circleTransform = getTransform() * transform;
   circleTransform.translate(-Level::maxDistance,-Level::maxDistance);
   circleTransform.translate(getGlobalBounds().width/2, getGlobalBounds().height/2);
-  target.draw(shape, circleTransform);
+
+  if(isPlayerOne)
+  {
+      shad->setParameter("blue", 0.0f);
+  }
+  else
+  {
+      shad->setParameter("blue", 1.0f);
+  }
+
+  shad->setParameter("rad", Level::maxDistance);
+  Vector2f p2Center = Vector2f(l->player2->getGlobalBounds().left + l->player2->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player2->getGlobalBounds().top + l->player2->getGlobalBounds().height/2));
+  Vector2f p1Center = Vector2f(l->player1->getGlobalBounds().left + l->player1->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player1->getGlobalBounds().top + l->player1->getGlobalBounds().height/2));
+  shad->setParameter("pos1", l->camera.getInverse() * p1Center);
+  shad->setParameter("pos2", l->camera.getInverse() * p2Center);
+  RenderStates rs(shad);
+  rs.transform = circleTransform;
+  target.draw(shape, rs);
 
   GameObject::onDraw(target, transform);
 }

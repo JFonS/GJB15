@@ -5,6 +5,7 @@
 #include "../include/Scene.hpp"
 #include "../include/Level.hpp"
 #include "../include/MovieClip.hpp"
+#include "../include/Intro.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <stack>
@@ -13,11 +14,13 @@ using namespace std;
 using namespace sf;
 
 class Level;
+class Intro;
 
 typedef stack<Scene*> SceneStack;
 
 class PeezyWin {
 public:
+  static Intro *intro;
   static Scene *mainMenu;
   static Level *level1;
 

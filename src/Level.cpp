@@ -1,7 +1,7 @@
 #include "../include/Level.hpp"
 
 float Level::c = 0.0f;
-float Level::cameraSpeed = 25.0;
+float Level::cameraSpeed = 45.0;
 float Level::maxDistance = 200.0;
 
 Level::Level(string levelName) : Scene(levelName)
@@ -78,6 +78,12 @@ void Level::Reset()
     PeezyWin::changeScene(l);
 }
 
+void Level::Complete()
+{
+    DbgLog("LEVEL COMPLETE");
+    Reset();
+}
+
 void Level::loadFromFile(string tilesetFile, string tileMapFile)
 {
     string line;
@@ -109,6 +115,8 @@ void Level::onKeyDown(PEvent &e)
 
 void Level::onUpdate(float dt)
 {
+    player1->levelCompleted = player2->levelCompleted = false;
+
     c += dt;
     camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
@@ -123,9 +131,11 @@ void Level::onUpdate(float dt)
             Reset();
         }
 
-    } else
+    }
+    else
     {
         player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
         player2->energy = min(player2->energy + Player::regenSpeed, Player::maxEnergy);
     }
+
 }

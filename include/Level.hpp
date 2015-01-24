@@ -47,6 +47,7 @@ public:
     ~Level();
 
     void Reset();
+    void Complete();
     virtual void onKeyDown(PEvent &e);
 };
 

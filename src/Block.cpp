@@ -39,43 +39,33 @@ void Block::onUpdate(float dt)
         if (isButton(GetType()) || isPalanca(GetType()) || isPortal(GetType())) enabled = false;
         else if(GetType() == DEATH) l->Reset();
     }
-    else if ( isButton(GetType())) enabled = true;
+    else if (isButton(GetType())) enabled = true;
+
+    if(GetType() == FINISH)
+    {
+        if(touchingPlayer1) l->player1->levelCompleted = true;
+        else if(touchingPlayer2) l->player2->levelCompleted = true;
+    }
+
+    if(l->player1->levelCompleted && l->player2->levelCompleted) l->Complete();
 }
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
 {
     Level *l = (Level*) PeezyWin::peekScene();
 
-    if(isButton(type) && !enabled)
+    if(isDoor(GetType()))
     {
+        bool nothing = true;
         for(Block *b : l->blocks)
         {
-            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
+            if(!b->enabled && (isPalanca(b->GetType()) || isButton(b->GetType())) &&
+               getObjectIndex(type) == getObjectIndex(b->GetType()))
             {
-                b->enabled = false;
+                enabled = nothing = false;
             }
         }
-    }
-    else if(isButton(type))
-    {
-        for(Block *b : l->blocks)
-        {
-            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
-            {
-                b->enabled = true;
-            }
-        }
-    }
-
-    if(isPalanca(type) && !enabled)
-    {
-        for(Block *b : l->blocks)
-        {
-            if(isDoor(b->GetType()) && getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
-            {
-                b->enabled = false;
-            }
-        }
+        if(nothing) enabled = true; //cerramos puerta
     }
 
     if(enabled || isPalanca(type) || isButton(type) || isPortal(type))
