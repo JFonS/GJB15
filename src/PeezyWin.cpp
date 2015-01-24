@@ -8,6 +8,8 @@
 SceneStack PeezyWin::scenes = SceneStack();
 RenderWindow* PeezyWin::window = nullptr;
 
+int PeezyWin::winHeight = 700, PeezyWin::winWidth = 1200;
+
 PeezyWin::PeezyWin(Vector2i size) {
     window = new RenderWindow(VideoMode(size.x, size.y), "");
 }

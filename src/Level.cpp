@@ -53,6 +53,15 @@ Level::Level(string levelName) : Scene(levelName)
     player1->setIndex(90); player2->setIndex(90);
     player1->setPosition(100.0f, 100.0f);
     b1->setIndex(200); b2->setIndex(200);
+
+    GameObject *bg = new GameObject("bg");
+    Texture *bgTex = new Texture();
+    bgTex->setRepeated(true);
+    bgTex->create(PeezyWin::winWidth, PeezyWin::winHeight);
+    bgTex->loadFromFile("assets/bg.png", IntRect(0, 0, PeezyWin::winWidth, PeezyWin::winHeight));
+    bg->Sprite::setTexture(*bgTex);
+    bg->setIndex(-1);
+    addChild(bg);
 }
 
 Level::~Level()

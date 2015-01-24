@@ -37,6 +37,8 @@ Rect<float> GameObject::getBoundingBox()
     return getLocalBounds();
 }
 
+void GameObject::onUpdate(float dt){}
+
 void GameObject::onKeyDown(PEvent &e) {}
 
 void GameObject::onMouseEnter(PEvent &e){}
