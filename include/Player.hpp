@@ -22,6 +22,7 @@ public:
     void setHitbox();
     bool hitting(const Block *b);
     void gotoPortal(const Block *destiny);
+    Shader *shad;
 
 private:
 
