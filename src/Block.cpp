@@ -12,14 +12,15 @@ Block::~Block()
 
 void Block::onUpdate(float dt)
 {
-    if(isButton(GetType()))
+    if(isButton(GetType()) || GetType() == DEATH || isPalanca(GetType()))
     {
         Level *l = (Level*) PeezyWin::peekScene();
         if(l->player1->hitting(this) || l->player2->hitting(this))
         {
-            enabled = false;
+            if (isButton(GetType()) || isPalanca(GetType())) enabled = false;
+            else l->Reset();
         }
-        else enabled = true;
+        else if (isButton(GetType())) enabled = true;
     }
 }
 
