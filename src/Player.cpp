@@ -10,7 +10,9 @@ float Player::regenSpeed = 50.0;
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
-    setPosition(0, 400);
+    hitBox = new RectangleShape(Vector2f(50.0,100.0));
+
+    setPosition(100, 400);
     addKeyFrame(0, "runRight");
     addKeyFrame(7, "FrunRight");
     addKeyFrame(8, "runLeft");
@@ -18,12 +20,19 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     timePerFrame = 0.05f;
     lookingRight = true;
     stop();
-    hitBox = Rect<float>(0.0f, 0.0f, 50.0f,100.0f);
+}
+
+void Player::setHitbox() {
+    hitOffset = getLocalBounds().width/2 - hitBox->getLocalBounds().width/2;
 }
 
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
+    hitBox->setPosition(getPosition().x + hitOffset,getPosition().y);
+    //if (isPlayerOne) DbgLog(getPosition() << hitBox->getPosition());
+
+    checkCollisions(dt);
 
     ySpeed = ySpeed + (gravity * dt);
     xSpeed = xSpeed * (1 - min(dt * friction, 1.0f));
@@ -46,8 +55,6 @@ void Player::onUpdate(float dt)
     }
     else if(xSpeed < 0 && (lookingRight  || !playing)) { lookingRight = false; gotoAndPlay("runLeft"); }
     else if(xSpeed > 0 && (!lookingRight || !playing)) { lookingRight = true;  gotoAndPlay("runRight"); }
-
-    checkCollisions(dt);
 }
 
 void Player::onKeyDown(PEvent &e) {
@@ -56,14 +63,15 @@ void Player::onKeyDown(PEvent &e) {
 
 void Player::hitFloor(float height)
 {
-    setPosition(getPosition().x, height - getGlobalBounds().height - 1.0f);
+    setPosition(getPosition().x, height - getGlobalBounds().height);
+    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
     ySpeed = 0.0;
     canJump = true;
 }
 
 void Player::hitCeil(float height)
 {
-    setPosition(getPosition().x, height + 1.0f);
+    setPosition(getPosition().x, height);
     ySpeed = 0.0;
 }
 
@@ -79,43 +87,40 @@ void Player::onKeyUp(PEvent &e)
 {
 
 }
+void Player::updateHitbox(){
+    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
+}
 
 void Player::checkCollisions(float dt)
 {
     Level* l = (Level*) PeezyWin::peekScene();
-    for (Block* block : l->blocks) {
+    for (Block* block : l->blocks)
+    {
+        Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
+        Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
 
-        Rect<float> meRectObj = Rect<float>(getGlobalBounds().left + getGlobalBounds().width/2 - hitBox.width/2, getGlobalBounds().top,
-                                            hitBox.width, hitBox.height);
-      //  if(isPlayerOne) DbgLog(meRectObj.left << "," << meRectObj.top << "," << (meRectObj.left + meRectObj.width) << "," << (meRectObj.top + meRectObj.height));
-        Rect<float> bRectObj = block->getGlobalBounds();
-        Rect<float> *meRect = &meRectObj;
-        Rect<float> *bRect = &bRectObj;
+        if (pRect.intersects(oRect)) {
+            hitBox->move(0.0,-ySpeed * dt);
+            if (hitBox->getGlobalBounds().intersects(oRect)) {
+                hitBox->move(0.0,ySpeed * dt);
+                //PROBLEMA EN LES X
+                if (xSpeed > 0) {
+                    setPosition(oRect.left - pRect.width - hitOffset, getPosition().y);
+                    updateHitbox();
+                } else {
+                    setPosition(oRect.left + oRect.width - hitOffset, getPosition().y);
+                    updateHitbox();
+                }
+            } else {
+                hitBox->move(0.0,ySpeed * dt);
+                //PROBLEMA EN LES Y
 
-        if (bRect->intersects(*meRect))
-        {
-            float lastXSpeed = xSpeed*dt, lastYSpeed = ySpeed*dt;
-            *meRect = Rect<float>(meRect->left, meRect->top - lastYSpeed, meRect->width, meRect->height);
-            if (bRect->intersects(*meRect) && ySpeed >= 0)
-            {
-                if (lastXSpeed > 0) {
-                    if(isPlayerOne) DbgLog("A");
-                    setPosition(bRect->left - (getGlobalBounds().width/2 + hitBox.width/2), getGlobalBounds().top);
-                } else if(lastXSpeed < 0){
-                    if(isPlayerOne) DbgLog("V");
-                    setPosition(bRect->left + bRect-> width - (getGlobalBounds().width/2 - hitBox.width/2), getGlobalBounds().top);
+                if(ySpeed > 0) {
+                    hitFloor(block->getPosition().y);
+                } else {
+                    hitCeil(block->getPosition().y + block->getLocalBounds().height);
                 }
-                xSpeed = 0.0f;
-            }
-            else
-            {
-                *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
-                if (bRect->intersects(*meRect))
-                {
-                    if (ySpeed >= 0){ hitFloor(bRect->top); if(isPlayerOne) DbgLog("C");}
-                   // else if(ySpeed < 0) { /*hitCeil(bRect->top + bRect->height);*/ if(isPlayerOne) DbgLog("DEU"); }
-                   // ySpeed = 0.0f;
-                }
+                updateHitbox();
             }
         }
     }

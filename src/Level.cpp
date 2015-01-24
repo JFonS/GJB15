@@ -1,5 +1,6 @@
 #include "../include/Level.hpp"
 
+bool Level::buttonPressed = false;
 float Level::cameraSpeed = 25.0;
 float Level::maxDistance = 200.0;
 
@@ -38,11 +39,13 @@ Level::Level(string levelName) : Scene(levelName)
     player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
     player1->loadSpriteSheet("assets/pluslyreduced.png", 16);
     player1->isPlayerOne = true;
+    player1->setHitbox();
     //player1->hitBox = Rect<float>(player1->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
     player2->loadSpriteSheet("assets/lesslyreduced.png", 16);
+    player2->setHitbox();
     //player2->hitBox = Rect<float>(player2->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player2);
 
@@ -82,7 +85,9 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
 
 void Level::onUpdate(float dt)
 {
-    camera.translate(dt*cameraSpeed, 0.0);
+    buttonPressed = false;
+
+    //camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
     if (sqrt(xd * xd + yd * yd) > 2 * maxDistance)
