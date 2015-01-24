@@ -36,15 +36,16 @@ void MovieClip::loadSpriteSheet(string sspath, int nFrames)
 void MovieClip::update(float dt)
 {
     GameObject::update(dt);
-    timeSinceLastFrame += dt;
-    if(timeSinceLastFrame > timePerFrame)
+    if(playing)
     {
-        timeSinceLastFrame = 0;
-        if(playing)
+        timeSinceLastFrame += dt;
+        if(timeSinceLastFrame > timePerFrame)
         {
+            timeSinceLastFrame = 0;
             Sprite::setTexture(*textures[currentFrame]);
             ++currentFrame;
-            if(currentFrame >= int(textures.size())) {
+            if(currentFrame >= int(textures.size()))
+            {
                 if(currentKeyFrame == "") currentFrame = 0;
                 else currentFrame = keyFrames[currentKeyFrame];
             }
@@ -54,7 +55,11 @@ void MovieClip::update(float dt)
             }
         }
     }
-    if(!playing) timeSinceLastFrame = 0;
+    else
+    {
+        timeSinceLastFrame = 0;
+        Sprite::setTexture(*textures[currentFrame]);
+    }
 }
 
 void MovieClip::addKeyFrame(int n, string keyFrameName)

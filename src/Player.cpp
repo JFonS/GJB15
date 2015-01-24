@@ -15,17 +15,15 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     addKeyFrame(7, "FrunRight");
     addKeyFrame(8, "runLeft");
     addKeyFrame(15, "FrunLeft");
-    timePerFrame = 0.075f;
+    timePerFrame = 0.05f;
+    lookingRight = true;
     stop();
+    hitBox = Rect<float>(0.0f, 0.0f, 50.0f,100.0f);
 }
 
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
-
-    if(abs(xSpeed) < 0.1f) gotoAndStop("runRight");
-    else if(xSpeed < 0) { /*if(!playing) gotoAndPlay("runLeft");*/ }
-    else if(xSpeed > 0) { if(!playing) gotoAndPlay("runRight"); }
 
     ySpeed = ySpeed + (gravity * dt);
     xSpeed = xSpeed * (1 - min(dt * friction, 1.0f));
@@ -39,6 +37,15 @@ void Player::onUpdate(float dt)
         xSpeed += maxRunSpeed * dt;
         xSpeed = max(xSpeed, -maxRunSpeed);
     }
+    if(abs(xSpeed*dt) < 0.5f) xSpeed = 0.0f;
+
+    if(xSpeed == 0.0f)
+    {
+        if(lookingRight) gotoAndStop("FrunRight");
+        else gotoAndStop("FrunLeft");
+    }
+    else if(xSpeed < 0 && (lookingRight  || !playing)) { lookingRight = false; gotoAndPlay("runLeft"); }
+    else if(xSpeed > 0 && (!lookingRight || !playing)) { lookingRight = true;  gotoAndPlay("runRight"); }
 
     checkCollisions(dt);
 }
@@ -68,12 +75,19 @@ void Player::jump()
     }
 }
 
+void Player::onKeyUp(PEvent &e)
+{
+
+}
+
 void Player::checkCollisions(float dt)
 {
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks) {
 
-        Rect<float> meRectObj = getGlobalBounds();
+        Rect<float> meRectObj = Rect<float>(getGlobalBounds().left + getGlobalBounds().width/2 - hitBox.width/2, getGlobalBounds().top,
+                                            hitBox.width, hitBox.height);
+        if(isPlayerOne) DbgLog(meRectObj.left << "," << meRectObj.top << "," << (meRectObj.left + meRectObj.width) << "," << (meRectObj.top + meRectObj.height));
         Rect<float> bRectObj = block->getGlobalBounds();
         Rect<float> *meRect = &meRectObj;
         Rect<float> *bRect = &bRectObj;
@@ -85,9 +99,9 @@ void Player::checkCollisions(float dt)
             if (bRect->intersects(*meRect))
             {
                 if (lastXSpeed > 0) {
-                    setPosition(bRect->left - meRect->width, meRect->top);
+                    setPosition(bRect->left - (getGlobalBounds().width/2 + hitBox.width/2), getGlobalBounds().top);
                 } else {
-                    setPosition(bRect->left + bRect-> width, meRect->top);
+                    setPosition(bRect->left + bRect-> width - (getGlobalBounds().width/2 - hitBox.width/2), getGlobalBounds().top);
                 }
                 xSpeed = 0.0f;
             }
@@ -95,8 +109,8 @@ void Player::checkCollisions(float dt)
                 *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
                 if (bRect->intersects(*meRect))
                 {
-                    if (ySpeed >= 0) hitFloor(bRect->top);
-                    else if(ySpeed < 0) hitCeil(bRect->top + bRect->height);
+                    if (lastYSpeed >= 0) hitFloor(bRect->top);
+                    else if(lastYSpeed < 0) hitCeil(bRect->top + bRect->height);
                 }
             }
         }

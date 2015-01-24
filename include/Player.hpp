@@ -13,7 +13,8 @@ public:
     void  onUpdate(float dt) override;
     float energy;
     static float maxEnergy, regenSpeed;
-    bool isPlayerOne;
+    bool isPlayerOne, lookingRight;
+    Rect<float> hitBox;
 
 private:
 
@@ -26,6 +27,7 @@ private:
     void hitCeil(float height);
     void jump();
 
+    void onKeyUp(PEvent &e);
     void onKeyDown(PEvent &e);
     void checkCollisions(float dt);
 

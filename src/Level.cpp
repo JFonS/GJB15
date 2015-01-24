@@ -36,17 +36,21 @@ Level::Level(string levelName) : Scene(levelName)
     }
 
     player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
-    player1->loadSpriteSheet("assets/pluslyreduced.png", 8);
+    player1->loadSpriteSheet("assets/pluslyreduced.png", 16);
     player1->isPlayerOne = true;
+    //player1->hitBox = Rect<float>(player1->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
-    player2->loadSpriteSheet("assets/lesslyreduced.png", 8);
+    player2->loadSpriteSheet("assets/lesslyreduced.png", 16);
+    //player2->hitBox = Rect<float>(player2->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player2);
 
     EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);
-    b1->setIndex(200); b2->setIndex(200);
     addChild(b1); addChild(b2);
+
+    player1->setIndex(90); player2->setIndex(90);
+    b1->setIndex(200); b2->setIndex(200);
 }
 
 Level::~Level()
