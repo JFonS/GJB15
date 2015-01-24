@@ -6,9 +6,9 @@ ButtonText::ButtonText() : PText(),
                             outlineColorDown(Color::Blue), colorIdle(Color::Black), colorOver(Color::Black),
                             colorDown(Color::Black), outlineIdle(false), outlineOver(true), outlineDown(true)
 {
-    textIdle = "I'm a button!";
-    textOver = "Over meeah!";
-    textDown = "Don't touch me biatch!";
+    textIdle = "PLAY!";
+    textOver = "PLAY!";
+    textDown = "PLAY!";
     downFunction = [](){}; //do nothing
     goToIdle();
 }

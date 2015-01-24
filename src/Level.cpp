@@ -1,7 +1,7 @@
 #include "../include/Level.hpp"
 
 float Level::c = 0.0f;
-float Level::cameraSpeed = 45.0;
+float Level::cameraSpeed = 60.0;
 float Level::maxDistance = 200.0;
 
 Level::Level(string levelName) : Scene(levelName)
@@ -119,23 +119,38 @@ void Level::onUpdate(float dt)
 
     c += dt;
     camera.translate(dt*cameraSpeed, 0.0);
+
+    bool bad1, bad2;
+    bad1 = bad2 = false;
+
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
-    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance)
-    {
-        player1->energy -= Player::regenSpeed; if(player1->energy < 0.0f) player1->energy = 0.0f;
-        player2->energy -= Player::regenSpeed; if(player2->energy < 0.0f) player2->energy = 0.0f;
 
-        if(player1->energy <= 0.0f || player2->energy <= 0.0f)
-        {
-            Reset();
-        }
+    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) bad1 = bad2 = true;
 
+    if (camera.getInverse().transformPoint(player1->getPosition()).x + player1->getGlobalBounds().width/2 < 0.0) {
+        bad1 = true;
     }
-    else
-    {
-        player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
+
+    if (camera.getInverse().transformPoint(player2->getPosition()).x + player2->getGlobalBounds().width/2 < 0.0) {
+        bad2 = true;
+    }
+
+    if (bad1) {
+        player1->energy -= Player::regenSpeed; if(player1->energy < 0.0f) player1->energy = 0.0f;
+    } else {
+         player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
+    }
+
+    if (bad2) {
+        player2->energy -= Player::regenSpeed; if(player2->energy < 0.0f) player2->energy = 0.0f;
+    } else {
         player2->energy = min(player2->energy + Player::regenSpeed, Player::maxEnergy);
+    }
+
+    if(player1->energy <= 0.0f || player2->energy <= 0.0f)
+    {
+        Reset();
     }
 
 }

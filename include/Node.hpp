@@ -35,7 +35,8 @@ public:
   virtual void update(float dt);
   
   void onEvent(PEvent &e);
-
+  static Vector2f globalToLocal(Vector2f pos);
+  static Vector2f localToGlobal(Vector2f pos);
 protected: 
 
   NodeMap children;
@@ -63,9 +64,6 @@ protected:
   virtual Rect<float> getBoundingBox() = 0;
 
   static bool zIndexSort(const Node* first, const Node* second);
-
-  static Vector2f globalToLocal(Vector2f pos);
-  static Vector2f localToGlobal(Vector2f pos);
 private:
 
   bool isMouseOver(const Vector2f mousePos);
