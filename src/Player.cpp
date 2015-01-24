@@ -8,7 +8,7 @@ float Player::maxEnergy = 1000.0;
 float Player::regenSpeed = 50.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
-    : isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
+    : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
     setPosition(0, 400);
 }
