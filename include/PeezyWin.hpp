@@ -12,10 +12,15 @@
 using namespace std;
 using namespace sf;
 
+class Level;
+
 typedef stack<Scene*> SceneStack;
 
 class PeezyWin {
 public:
+  static Scene *mainMenu;
+  static Level *level1;
+
   PeezyWin(Vector2i size);
   virtual ~PeezyWin();
   void play();

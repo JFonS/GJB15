@@ -30,6 +30,7 @@ public:
     virtual ~MovieClip();
 
     void loadSpriteSheet(string sspath, int nFrames);
+    void addFrame(string path);
     void addKeyFrame(int n, string keyFrameName);
 
     virtual void onUpdate(float dt) = 0;

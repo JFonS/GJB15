@@ -33,6 +33,11 @@ void MovieClip::loadSpriteSheet(string sspath, int nFrames)
     Sprite::setTexture(*textures[0]);
 }
 
+void MovieClip::addFrame(string path)
+{
+    textures.push_back(&ResourceManager::getTexture(path));
+}
+
 void MovieClip::update(float dt)
 {
     GameObject::update(dt);

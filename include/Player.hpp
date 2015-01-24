@@ -20,6 +20,7 @@ public:
     float hitOffset;
     void setHitbox();
     bool hitting(const Block *b);
+    void gotoPortal(const Block *destiny);
 
 private:
 

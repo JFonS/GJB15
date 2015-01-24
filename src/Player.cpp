@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 10.0;
+float Player::regenSpeed = 1.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
@@ -87,15 +87,22 @@ bool Player::hitting(const Block *b)
 {
     Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
     pRect.height += 2.0f;
-    Rect<float> oRect = b->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
-
+    Rect<float> oRect = b->getGlobalBounds();
     return pRect.intersects(oRect);
+}
+
+void Player::gotoPortal(const Block *destiny)
+{
+    setPosition(destiny->getPosition() - Vector2f(hitOffset, getGlobalBounds().height + 3.0f));
+    if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
+    ySpeed *= -1.0f;
 }
 
 void Player::onKeyUp(PEvent &e)
 {
 
 }
+
 void Player::updateHitbox(){
     hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
 }
@@ -105,7 +112,8 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
-        if(isDoor(block->GetType()) && !block->enabled)  continue;
+        if(isDoor(block->GetType() && !block->enabled))  continue;
+        if(isPortal(block->GetType())) continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
@@ -142,13 +150,32 @@ void Player::checkCollisions(float dt)
 
 void Player::onDraw(RenderTarget& target, const Transform& transform)
 {
-  GameObject::onDraw(target, transform);
+  Level *l = (Level*) PeezyWin::peekScene();
   sf::CircleShape shape(Level::maxDistance);
-  shape.setFillColor(Color::Transparent);
-  shape.setOutlineColor(Color::Blue);
-  shape.setOutlineThickness(3);
+  Vector2f v = (l->player1->getPosition() - l->player2->getPosition());
+  float distIndex = sqrt(v.x*v.x + v.y*v.y);
+  distIndex = ((Level::maxDistance) / max(0.5f, distIndex));
+  float alphaIndex = abs(distIndex);
+  float minAlpha = 0.2f;
+
+  if(isPlayerOne)
+  {
+      shape.setFillColor(Color(255, 25, 25, 50 * min(1.0f, alphaIndex + minAlpha)));
+      shape.setOutlineColor(Color(200, 25, 25, 255 * min(1.0f, alphaIndex + minAlpha)));
+  }
+  else
+  {
+      shape.setFillColor(Color(25, 25, 255, 50 * min(1.0f, alphaIndex + minAlpha) ));
+      shape.setOutlineColor(Color(25, 25, 200, 255 * min(1.0f, alphaIndex + minAlpha) ));
+  }
+
+  shape.setPointCount(100); //moar quality
+  shape.setOutlineThickness(2);
+
   Transform circleTransform = getTransform() * transform;
   circleTransform.translate(-Level::maxDistance,-Level::maxDistance);
   circleTransform.translate(getGlobalBounds().width/2, getGlobalBounds().height/2);
   target.draw(shape, circleTransform);
+
+  GameObject::onDraw(target, transform);
 }
