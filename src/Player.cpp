@@ -103,10 +103,11 @@ void Player::checkCollisions(float dt)
 
         if (pRect.intersects(oRect))
         {
+            const float mult = 1.1f;
             //MOVEMENT HANDLE
-            hitBox->move(0.0,-ySpeed * dt);
+            hitBox->move(0.0,-ySpeed * dt * mult);
             if (hitBox->getGlobalBounds().intersects(oRect)) {
-                hitBox->move(0.0,ySpeed * dt);
+                hitBox->move(0.0,ySpeed * dt * mult);
                 //PROBLEMA EN LES X
                 if (xSpeed > 0) {
                     setPosition(oRect.left - pRect.width - hitOffset, getPosition().y);
@@ -116,7 +117,7 @@ void Player::checkCollisions(float dt)
                     updateHitbox();
                 }
             } else {
-                hitBox->move(0.0,ySpeed * dt);
+                hitBox->move(0.0,ySpeed * dt * mult);
                 //PROBLEMA EN LES Y
                 if(ySpeed > 0) {
                     hitFloor(block->getPosition().y);
