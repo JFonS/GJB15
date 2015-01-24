@@ -17,6 +17,8 @@
 #define DOOR_END 16
 #define PORTAL_START 23
 #define PORTAL_END 27
+#define FINISH 28
+#define LIGHT 29
 #define isDoor(x) (x >= DOOR_START && x <= DOOR_END)
 #define isButton(x) (x >= BUTTON_START && x <= BUTTON_END)
 #define isPalanca(x) (x >= PALANCA_START && x <= PALANCA_END)

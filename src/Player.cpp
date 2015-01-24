@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 1.0;
+float Player::regenSpeed = 3.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
@@ -19,6 +19,7 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     addKeyFrame(15, "FrunLeft");
     timePerFrame = 0.05f;
     lookingRight = true;
+    levelCompleted = false;
     stop();
 }
 
@@ -114,6 +115,7 @@ void Player::checkCollisions(float dt)
     {
         if(isDoor(block->GetType()) && !block->enabled)  continue;
         if(isPortal(block->GetType())) continue;
+        if(block->GetType() == LIGHT) continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);

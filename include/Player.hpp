@@ -1,4 +1,4 @@
-#ifndef PLAYER_HPP
+﻿#ifndef PLAYER_HPP
 #define PLAYER_HPP
 
 #include "../include/MovieClip.hpp"
@@ -16,6 +16,7 @@ public:
     float energy;
     static float maxEnergy, regenSpeed;
     bool isPlayerOne, lookingRight;
+    bool levelCompleted;
     RectangleShape* hitBox;
     float hitOffset;
     void setHitbox();
