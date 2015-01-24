@@ -15,7 +15,6 @@ GameObject::GameObject(string n): textureName("none") {
 
 GameObject::~GameObject()
 {
-  DbgWarning("destroyed");
   ResourceManager::deleteTexture(textureName);
 }
 

@@ -11,6 +11,14 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
     setPosition(0, 400);
+    addKeyFrame(0, "runRight");
+    addKeyFrame(7, "FrunRight");
+    addKeyFrame(8, "runLeft");
+    addKeyFrame(15, "FrunLeft");
+    timePerFrame = 0.05f;
+    lookingRight = true;
+    stop();
+    hitBox = Rect<float>(0.0f, 0.0f, 50.0f,100.0f);
 }
 
 void Player::onUpdate(float dt)
@@ -29,6 +37,15 @@ void Player::onUpdate(float dt)
         xSpeed += maxRunSpeed * dt;
         xSpeed = max(xSpeed, -maxRunSpeed);
     }
+    if(abs(xSpeed*dt) < 0.5f) xSpeed = 0.0f;
+
+    if(xSpeed == 0.0f)
+    {
+        if(lookingRight) gotoAndStop("FrunRight");
+        else gotoAndStop("FrunLeft");
+    }
+    else if(xSpeed < 0 && (lookingRight  || !playing)) { lookingRight = false; gotoAndPlay("runLeft"); }
+    else if(xSpeed > 0 && (!lookingRight || !playing)) { lookingRight = true;  gotoAndPlay("runRight"); }
 
     checkCollisions(dt);
 }
@@ -39,14 +56,14 @@ void Player::onKeyDown(PEvent &e) {
 
 void Player::hitFloor(float height)
 {
-    setPosition(getPosition().x, height - getGlobalBounds().height);
+    setPosition(getPosition().x, height - getGlobalBounds().height - 1.0f);
     ySpeed = 0.0;
     canJump = true;
 }
 
 void Player::hitCeil(float height)
 {
-    setPosition(getPosition().x, height);
+    setPosition(getPosition().x, height + 1.0f);
     ySpeed = 0.0;
 }
 
@@ -58,30 +75,38 @@ void Player::jump()
     }
 }
 
+void Player::onKeyUp(PEvent &e)
+{
+
+}
+
 void Player::checkCollisions(float dt)
 {
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks) {
 
-        Rect<float> meRectObj = getGlobalBounds();
+        Rect<float> meRectObj = Rect<float>(getGlobalBounds().left + getGlobalBounds().width/2 - hitBox.width/2, getGlobalBounds().top,
+                                            hitBox.width, hitBox.height);
+      //  if(isPlayerOne) DbgLog(meRectObj.left << "," << meRectObj.top << "," << (meRectObj.left + meRectObj.width) << "," << (meRectObj.top + meRectObj.height));
         Rect<float> bRectObj = block->getGlobalBounds();
         Rect<float> *meRect = &meRectObj;
         Rect<float> *bRect = &bRectObj;
 
-        if (bRect->intersects(*meRect)) {
-
+        if (bRect->intersects(*meRect))
+        {
             float lastXSpeed = xSpeed*dt, lastYSpeed = ySpeed*dt;
             *meRect = Rect<float>(meRect->left, meRect->top - lastYSpeed, meRect->width, meRect->height);
             if (bRect->intersects(*meRect))
             {
                 if (lastXSpeed > 0) {
-                    setPosition(bRect->left - meRect->width, meRect->top);
+                    setPosition(bRect->left - (getGlobalBounds().width/2 + hitBox.width/2), getGlobalBounds().top);
                 } else {
-                    setPosition(bRect->left + bRect-> width, meRect->top);
+                    setPosition(bRect->left + bRect-> width - (getGlobalBounds().width/2 - hitBox.width/2), getGlobalBounds().top);
                 }
                 xSpeed = 0.0f;
             }
-            else {
+            else
+            {
                 *meRect = Rect<float>(meRect->left - lastXSpeed, meRect->top + lastYSpeed, meRect->width, meRect->height);
                 if (bRect->intersects(*meRect))
                 {

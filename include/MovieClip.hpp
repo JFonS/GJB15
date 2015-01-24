@@ -15,7 +15,7 @@ using namespace sf;
 
 class MovieClip : public GameObject
 {
-private:
+protected:
 
     vector<Texture*> textures;
     map<string, int> keyFrames;
@@ -29,8 +29,8 @@ public:
     MovieClip();
     virtual ~MovieClip();
 
-    void addFrame(string texturePath);
-    void addKeyFrame(string texturePath, string keyFrameName);
+    void loadSpriteSheet(string sspath, int nFrames);
+    void addKeyFrame(int n, string keyFrameName);
 
     virtual void onUpdate(float dt) = 0;
 
