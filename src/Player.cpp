@@ -93,7 +93,9 @@ bool Player::hitting(const Block *b)
 
 void Player::gotoPortal(const Block *destiny)
 {
-    setPosition(getPosition() + Vector2f(0.0f, getGlobalBounds().height));
+    setPosition(destiny->getPosition() - Vector2f(hitOffset, getGlobalBounds().height + 3.0f));
+    if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
+    ySpeed *= -1.0f;
 }
 
 void Player::onKeyUp(PEvent &e)
@@ -110,7 +112,8 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
-        if(isDoor(block->GetType()) && !block->enabled)  continue;
+        if(isDoor(block->GetType() && !block->enabled))  continue;
+        if(isPortal(block->GetType())) continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);

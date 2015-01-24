@@ -18,31 +18,28 @@ void Block::onUpdate(float dt)
     {
         if(isPortal(GetType()))
         {
-            if(enabled) //Per evitar bucle infinito de portal
+           Block *destinyPortal = nullptr;
+            for(Block *b : l->blocks)
             {
-                Block *destinyPortal = nullptr;
-                for(Block *b : l->blocks)
+                if(this != b && isPortal(b->GetType()) &&
+                   getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
                 {
-                    if(this != b && isPortal(b->GetType()) &&
-                       getObjectIndex(GetType()) == getObjectIndex(b->GetType()))
-                    {
-                        destinyPortal = b;
-                        break;
-                    }
+                    destinyPortal = b;
+                    break;
                 }
+            }
 
-                if(destinyPortal != nullptr)
-                {
-                    if(touchingPlayer1) l->player1->gotoPortal(destinyPortal);
-                    else l->player2->gotoPortal(destinyPortal);
-                }
+            if(destinyPortal != nullptr)
+            {
+                if(touchingPlayer1) l->player1->gotoPortal(destinyPortal);
+                else l->player2->gotoPortal(destinyPortal);
             }
         }
 
         if (isButton(GetType()) || isPalanca(GetType()) || isPortal(GetType())) enabled = false;
         else if(GetType() == DEATH) l->Reset();
     }
-    else if ( isButton(GetType()) || isPortal(GetType()) ) enabled = true;
+    else if ( isButton(GetType())) enabled = true;
 }
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
@@ -81,7 +78,7 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
         }
     }
 
-    if(enabled || isPalanca(type) || isButton(type))
+    if(enabled || isPalanca(type) || isButton(type) || isPortal(type))
     {
         GameObject::onDraw(target, transform);
     }
