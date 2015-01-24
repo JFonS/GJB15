@@ -36,6 +36,7 @@ private:
     void onUpdate(float dt);
 
 public:
+    static float c;
     static float maxDistance;
 
     Player *player1, *player2;
