@@ -10,8 +10,8 @@ EnergyBar::EnergyBar(Player *p) : GameObject()
     rectEnergy = RectangleShape(Vector2f(BAR_WIDTH, BAR_HEIGHT));
     rectEnergy.setFillColor(Color::Green);
 
-    rectBorder.setPosition(BAR_WIDTH - 50.0f, attachedPlayer->isPlayerOne ? 50.0f : 400.0f);
-    rectEnergy.setPosition(BAR_WIDTH - 50.0f, (attachedPlayer->isPlayerOne ? 50.0f : 400.0f));
+    rectBorder.setPosition(600.0f - BAR_WIDTH - 50.0f, attachedPlayer->isPlayerOne ? 80.0f : 400.0f);
+    rectEnergy.setPosition(600.0f - BAR_WIDTH - 50.0f, (attachedPlayer->isPlayerOne ? 80.0f : 400.0f));
 }
 
 void EnergyBar::onUpdate(float dt)
