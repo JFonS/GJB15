@@ -3,13 +3,15 @@
 
 #include "Level.hpp"
 #include "ResourceManager.hpp"
-#include "GameObject.hpp"
+#include "MovieClip.hpp"
 #include "PEvent.hpp"
 #include "Debug.hpp"
 
 #define SOLID 1
 #define BUTTON 2
-#define DOOR 3
+#define DEATH 3
+#define PALANCA 4
+#define DOOR 6
 
 class Block : public GameObject
 {

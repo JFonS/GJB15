@@ -12,6 +12,7 @@ Block::~Block()
 
 void Block::onUpdate(float dt)
 {
+
 }
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
@@ -21,8 +22,17 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
         enabled = !Level::buttonPressed;
     }
 
-    if(enabled) {
+    if(enabled || type == PALANCA) {
         GameObject::onDraw(target, transform);
+    }
+
+    if(type == PALANCA && enabled)
+    {
+        Sprite::setTexture(ResourceManager::getTexture("assets/interruptorof.png"));
+    }
+    else if(type == PALANCA && !enabled)
+    {
+        Sprite::setTexture(ResourceManager::getTexture("assets/interruptoron.png"));
     }
 }
 

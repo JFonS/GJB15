@@ -15,7 +15,7 @@
 #define TILE_HEIGHT 50
 #define LEVEL_WIDTH 50 * TILE_WIDTH
 #define LEVEL_HEIGHT 14 * TILE_HEIGHT
-#define NUM_OF_DIF_TILES 3
+#define NUM_OF_DIF_TILES 6
 
 class Block;
 
@@ -46,6 +46,9 @@ public:
 
     Level(string levelName);
     ~Level();
+
+    void Reset();
+    virtual void onKeyDown(PEvent &e);
 };
 
 #endif // LEVEL_HPP

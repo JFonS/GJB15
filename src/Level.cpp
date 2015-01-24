@@ -40,19 +40,18 @@ Level::Level(string levelName) : Scene(levelName)
     player1->loadSpriteSheet("assets/pluslyreduced.png", 16);
     player1->isPlayerOne = true;
     player1->setHitbox();
-    //player1->hitBox = Rect<float>(player1->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
     player2->loadSpriteSheet("assets/lesslyreduced.png", 16);
     player2->setHitbox();
-    //player2->hitBox = Rect<float>(player2->getGlobalBounds().width/2 - 25.0f, 0.0f, 50.0f, 100.0f);
     addChild(player2);
 
     EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);
     addChild(b1); addChild(b2);
 
     player1->setIndex(90); player2->setIndex(90);
+    player1->setPosition(100.0f, 100.0f);
     b1->setIndex(200); b2->setIndex(200);
 }
 
@@ -60,6 +59,12 @@ Level::~Level()
 {
     for(int i = 0; i < int(blocks.size()); ++i) delete blocks[i];
     delete[] tileTextures;
+}
+
+void Level::Reset()
+{
+    Level *l = new Level(name);
+    PeezyWin::changeScene(l);
 }
 
 void Level::loadFromFile(string tilesetFile, string tileMapFile)
@@ -83,18 +88,31 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
     }
 }
 
+void Level::onKeyDown(PEvent &e)
+{
+    if(e.key.code == Keyboard::R)
+    {
+        Reset();
+    }
+}
+
 void Level::onUpdate(float dt)
 {
     buttonPressed = false;
 
-    //camera.translate(dt*cameraSpeed, 0.0);
+    camera.translate(dt*cameraSpeed, 0.0);
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
     if (sqrt(xd * xd + yd * yd) > 2 * maxDistance)
     {
         player1->energy -= Player::regenSpeed; if(player1->energy < 0.0f) player1->energy = 0.0f;
         player2->energy -= Player::regenSpeed; if(player2->energy < 0.0f) player2->energy = 0.0f;
-        ////// MIRAR SI ES MOR ALGU
+
+        if(player1->energy <= 0.0f || player2->energy <= 0.0f)
+        {
+            Reset();
+        }
+
     } else
     {
         player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);

@@ -21,7 +21,8 @@ PeezyWin::~PeezyWin()
     }
 }
 
-void PeezyWin::pushScene(Scene* sc) {
+void PeezyWin::pushScene(Scene* sc)
+{
   DbgLog("Pushed scene: " << sc->getName());
   scenes.push(sc);
 }
