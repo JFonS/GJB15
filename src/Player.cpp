@@ -42,7 +42,7 @@ void Player::onUpdate(float dt)
     if(xSpeed == 0.0f)
     {
         if(lookingRight) gotoAndStop("FrunRight");
-        else gotoAndStop("FrunLeft");
+        else gotoAndStop("runLeft");
     }
     else if(xSpeed < 0 && (lookingRight  || !playing)) { lookingRight = false; gotoAndPlay("runLeft"); }
     else if(xSpeed > 0 && (!lookingRight || !playing)) { lookingRight = true;  gotoAndPlay("runRight"); }
@@ -113,7 +113,8 @@ void Player::checkCollisions(float dt)
                 if (bRect->intersects(*meRect))
                 {
                     if (ySpeed >= 0){ hitFloor(bRect->top); if(isPlayerOne) DbgLog("C");}
-                    else if(ySpeed < 0) { hitCeil(bRect->top + bRect->height); if(isPlayerOne) DbgLog("DEU"); }
+                   // else if(ySpeed < 0) { /*hitCeil(bRect->top + bRect->height);*/ if(isPlayerOne) DbgLog("DEU"); }
+                   // ySpeed = 0.0f;
                 }
             }
         }
