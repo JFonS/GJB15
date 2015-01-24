@@ -17,20 +17,20 @@ void Block::onUpdate(float dt)
 
 void Block::onDraw(RenderTarget& target, const Transform& transform)
 {
-    if(type == DOOR)
+    if(isDoor(type))
     {
         enabled = !Level::buttonPressed;
     }
 
-    if(enabled || type == PALANCA) {
+    if(enabled || isPalanca(type)) {
         GameObject::onDraw(target, transform);
     }
 
-    if(type == PALANCA && enabled)
+    if(isPalanca(type) && enabled)
     {
         Sprite::setTexture(ResourceManager::getTexture("assets/interruptorof.png"));
     }
-    else if(type == PALANCA && !enabled)
+    else if(isPalanca(type) && !enabled)
     {
         Sprite::setTexture(ResourceManager::getTexture("assets/interruptoron.png"));
     }
@@ -39,4 +39,11 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
 int Block::GetType()
 {
     return type;
+}
+
+int Block::getObjectIndex(int n) {
+    if (isDoor(n)) return n - DOOR_START;
+    if (isPalanca(n)) return n - PALANCA_START;
+    if (isButton(n)) return n - BUTTON_START;
+    return -1;
 }

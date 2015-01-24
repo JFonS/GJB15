@@ -96,7 +96,7 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
-        if(block->GetType() == DOOR && !block->enabled)  continue;
+        if(isDoor(block->GetType()) && !block->enabled)  continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
         Rect<float> oRect = block->getGlobalBounds(); //Rect<float>(block->getPosition().x, block->getPosition().y, block->getGlobalBounds().width, block->getGlobalBounds().height);
@@ -128,11 +128,11 @@ void Player::checkCollisions(float dt)
             }
             //
 
-            if(block->GetType() == BUTTON)
+            if(isButton(block->GetType()))
             {
                 Level::buttonPressed = true;
             }
-            else if(block->GetType() == PALANCA)
+            else if(isPalanca(block->GetType()))
             {
                 block->enabled = false;
             }

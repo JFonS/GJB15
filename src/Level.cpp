@@ -56,12 +56,14 @@ Level::Level(string levelName) : Scene(levelName)
 
     GameObject *bg = new GameObject("bg");
     Texture *bgTex = new Texture();
+    bgTex->loadFromFile("assets/bg.png");
     bgTex->setRepeated(true);
-    bgTex->create(PeezyWin::winWidth, PeezyWin::winHeight);
-    bgTex->loadFromFile("assets/bg.png", IntRect(0, 0, PeezyWin::winWidth, PeezyWin::winHeight));
-    bg->Sprite::setTexture(*bgTex);
     bg->setIndex(-1);
     addChild(bg);
+
+    bg->Sprite::setTexture(*bgTex);
+    DbgLog(PeezyWin::winWidth << "_____");
+    bg->Sprite::setTextureRect(IntRect(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT));
 }
 
 Level::~Level()
