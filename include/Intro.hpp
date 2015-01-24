@@ -3,14 +3,18 @@
 
 #include "Scene.hpp"
 #include "MovieClip.hpp"
+#include "PeezyWin.hpp"
+
 using namespace std;
 using namespace sf;
 
-class Intro: public Scene {
-private:
+class Intro: public Scene
+{
+public:
     Intro();
-    void onUpdate();
-    MovieClip introClip;
+    virtual void onUpdate(float dt);
+    virtual void onKeyDown(PEvent &e);
+    MovieClip *introClip;
 };
 
 #endif // INTRO_HPP

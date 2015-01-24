@@ -7,6 +7,7 @@
 
 Scene *PeezyWin::mainMenu = nullptr;
 Level *PeezyWin::level1 = nullptr;
+Intro *PeezyWin::intro = nullptr;
 SceneStack PeezyWin::scenes = SceneStack();
 RenderWindow* PeezyWin::window = nullptr;
 
@@ -53,11 +54,13 @@ void PeezyWin::startUp()
     mainMenu = new Scene("mainMenu");
     ButtonText *playButton = new ButtonText();
     playButton->setString("PLAY");
-    playButton->downFunction = [](){PeezyWin::popScene(); PeezyWin::pushScene(PeezyWin::level1);};
+    playButton->downFunction = [](){PeezyWin::changeScene(PeezyWin::intro);};
     mainMenu->addChild(playButton);
     this->pushScene(mainMenu);
 
     level1 = new Level("testLevel");
+
+    intro = new Intro();
 }
 
 void PeezyWin::loop(float dt)

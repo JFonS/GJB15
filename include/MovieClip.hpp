@@ -19,13 +19,14 @@ protected:
 
     vector<Texture*> textures;
     map<string, int> keyFrames;
-    int currentFrame;
+
     string currentKeyFrame;
-    float timeSinceLastFrame, timePerFrame;
+    float timeSinceLastFrame;
     bool playing;
 
 public:
-
+    int currentFrame;
+    float timePerFrame;
     MovieClip();
     virtual ~MovieClip();
 
@@ -33,7 +34,7 @@ public:
     void addFrame(string path);
     void addKeyFrame(int n, string keyFrameName);
 
-    virtual void onUpdate(float dt) = 0;
+    virtual void onUpdate(float dt){};
 
     void update(float dt);
 

@@ -36,6 +36,7 @@ void MovieClip::loadSpriteSheet(string sspath, int nFrames)
 void MovieClip::addFrame(string path)
 {
     textures.push_back(&ResourceManager::getTexture(path));
+    if(textures.size() == 1) Sprite::setTexture(*textures[0]);
 }
 
 void MovieClip::update(float dt)
@@ -47,7 +48,6 @@ void MovieClip::update(float dt)
         if(timeSinceLastFrame > timePerFrame)
         {
             timeSinceLastFrame = 0;
-            Sprite::setTexture(*textures[currentFrame]);
             ++currentFrame;
             if(currentFrame >= int(textures.size()))
             {
@@ -57,6 +57,11 @@ void MovieClip::update(float dt)
             else if(currentKeyFrame != "" && currentFrame > keyFrames["F" + currentKeyFrame])
             {
                 currentFrame = keyFrames[currentKeyFrame];
+            }
+
+            if(currentFrame < int(textures.size()))
+            {
+                Sprite::setTexture(*textures[currentFrame]);
             }
         }
     }

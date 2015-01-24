@@ -112,7 +112,7 @@ void Player::checkCollisions(float dt)
     Level* l = (Level*) PeezyWin::peekScene();
     for (Block* block : l->blocks)
     {
-        if(isDoor(block->GetType() && !block->enabled))  continue;
+        if(isDoor(block->GetType()) && !block->enabled)  continue;
         if(isPortal(block->GetType())) continue;
 
         Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
