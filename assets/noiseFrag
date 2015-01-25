@@ -1,0 +1,45 @@
+uniform sampler2D tex, noiseTex;
+uniform vec2 noiseCoords;
+uniform float alpha, isBG;
+uniform vec2 p1;
+uniform vec2 p2;
+const float mag = 0.5;
+float lightDist = 50.0;
+
+vec4 multiply(vec4 c1, vec4 c2)
+{
+    return vec4((c1.rgb * c1.a + c2.rgb * c2.a), c1.a + c2.a);
+}
+
+void main()
+{
+    vec4 originalColor = texture2D(tex, gl_TexCoord[0].xy);
+    vec4 noiseColor = texture2D(noiseTex, noiseCoords + (gl_TexCoord[0].xy / 5.0) );
+    noiseColor.a = alpha;
+
+    if(originalColor.a > 0.1)
+    {
+	vec4 mergeColor = mix(originalColor, noiseColor, alpha);
+    	gl_FragColor = mergeColor;
+    }
+    else gl_FragColor = originalColor;
+    
+    if(isBG == 0.0)
+    {
+	    float redA = clamp(gl_FragColor.a * lightDist/distance(p1,gl_FragCoord.xy) / mag - 0.25, 0.0, 0.3);
+	    float blueA = clamp(gl_FragColor.a * lightDist/distance(p2,gl_FragCoord.xy) / mag - 0.25, 0.0, 0.3);
+	    redA *= 5.0f; blueA *= 5.0f;
+	    vec4 red = vec4(1.0, 0.0 , 0.0, redA), blue = vec4(0.0, 0.0, 1.0, blueA);
+	    
+	    vec4 chachi = gl_FragColor; float pistachi = 0.5f;
+	    gl_FragColor += multiply(red, chachi) * pistachi;
+	    gl_FragColor += multiply(blue, chachi) * pistachi;
+    }
+
+    float iluminationRad = isBG > 0.0 ? 200.0 : 100.0;
+    vec4 col = gl_FragColor * clamp(iluminationRad / distance(p1,gl_FragCoord.xy), 0.6, 1.5);
+    col *= clamp(iluminationRad / distance(p2,gl_FragCoord.xy), 0.6, 1.5);
+    gl_FragColor = vec4(col.rgb, gl_FragColor.a);
+    
+}
+
