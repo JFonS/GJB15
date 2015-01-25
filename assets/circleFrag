@@ -8,24 +8,15 @@ void main()
     float d1 = distance(pos1, gl_FragCoord.xy);
     float d2 = distance(pos2, gl_FragCoord.xy);
 
-    vec4 pixel;
-    /*if(d1 > rad || d2 > rad)
+    vec4 pixel = vec4(0.0);
+    if((d1 > rad && d2 > rad))
     {
 	    if(blue == 1.0){
-		pixel = vec4(0.0, 0.0, 1.0, clamp((d2/rad)/3.0, 0.0, 0.25));
+		if(d2 >= rad-1.0f) pixel = vec4(0.3, 0.3, 1.0, 1.0);
+	    } else {
+		if(d1 >= rad-1.0f) pixel = vec4(1.0, 0.3, 0.3, 1.0);
 	    }
-	    else {
-		pixel = vec4(1.0, 0.0, 0.0, clamp((d1/rad)/3.0, 0.0, 0.25));
-	    }
-    }*/
-
-    pixel = vec4(0.0);
-    if(blue == 1.0){
-	if(d2 > rad-1.0f) pixel = vec4(0.3, 0.3, 1.0, 1.0);
-    } else {
-	if(d1 > rad-1.0f) pixel = vec4(1.0, 0.3, 0.3, 1.0);
     }
-
 
     gl_FragColor = pixel;
 }
