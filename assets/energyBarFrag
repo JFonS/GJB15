@@ -1,8 +1,16 @@
-
 uniform sampler2D tex;
 
 void main()
 {
 	vec2 uv = gl_TexCoord[0].xy;
-	gl_FragColor = vec4(uv.x, 0.0, 0.0, 1.0);
+	if(uv.x > 0.5) gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+	else gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+
+	gl_FragColor = vec4(uv.x, 0.0, 1.0 - uv.x, 1.0);
+
+	//vec4 outlineColor = vec4(vec3(0.9), 1.0);
+	//if(uv.y < 0.06 || uv.y > 0.94) gl_FragColor = outlineColor;
+	//if(uv.x < 0.02 || uv.x > 0.98) gl_FragColor = outlineColor;
+
+	gl_FragColor.a = 0.9;
 }
