@@ -1,7 +1,7 @@
 #include "../include/PText.hpp"
 
 PText::PText() : outline(true), blowing(false), flickering(false), visibleFlicker(true), outlineStroke(3),
-                 originalSize(30), flickerToggleTime(0), totalTimesFlicker(0), timesFlickered(0), blowingTime(-1),
+                 originalSize(120), flickerToggleTime(0), totalTimesFlicker(0), timesFlickered(0), blowingTime(-1),
                  outlineColor(Color::Black)
 {
     font =  new Font();
@@ -12,7 +12,7 @@ PText::PText() : outline(true), blowing(false), flickering(false), visibleFlicke
     bClock = new Clock();
 
     setCharacterSize(originalSize);
-    setColor(Color::White);
+    setColor(Color::Black);
     setString("");
 }
 PText::PText(const char* str) : PText() { setString(str); }
