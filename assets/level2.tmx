@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="50" height="14" tilewidth="50" tileheight="50">
+ <properties>
+  <property name="cameraSpeed" value="10"/>
+ </properties>
  <tileset firstgid="1" name="Ainas3" tilewidth="50" tileheight="50">
   <image source="newtileset.png" trans="ff00ff" width="1450" height="50"/>
  </tileset>

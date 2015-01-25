@@ -9,7 +9,7 @@ void main()
     float d2 = distance(pos2, gl_FragCoord.xy);
 
     vec4 pixel = vec4(0.0);
-    if((d1 == rad && d2 == rad))
+    if((d1 > rad && d2 > rad))
     {
 	    if(blue == 1.0){
 		if(d2 >= rad-1.0f) pixel = vec4(0.3, 0.3, 1.0, 1.0);
