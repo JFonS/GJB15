@@ -10,7 +10,7 @@ float Player::regenSpeed = 150.0;
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
-    hitBox = new RectangleShape(Vector2f(40.0,70.0));
+    hitBox = new RectangleShape(Vector2f(50.0, 70.0));
 
     setPosition(100, 400);
     addKeyFrame(0, "runRight");
@@ -100,9 +100,8 @@ bool Player::hitting(const Block *b)
 
 void Player::gotoPortal(const Block *destiny)
 {
-    setPosition(destiny->getPosition() - Vector2f(hitXOffset+5.0, getGlobalBounds().height + 3.0f));
+    setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
     updateHitbox();
-    DbgLog(ySpeed);
     if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
     ySpeed *= -1.1f;
 }

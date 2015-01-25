@@ -18,10 +18,8 @@ EnergyBar::EnergyBar() : GameObject()
     shad->setParameter("tex", Shader::CurrentTexture);
     rect = Sprite(*t);
     rect.setTextureRect(IntRect(0, 0, BAR_WIDTH, BAR_HEIGHT));
-    rect.setOrigin(Vector2f(BAR_WIDTH/2, BAR_HEIGHT/2));
     rect.setPosition(PeezyWin::winWidth / 2, 25.0f);
 
-    border.setOrigin(Vector2f(BAR_WIDTH/2 + 0.5f, BAR_HEIGHT/2 + 0.5f));
     border.setPosition(rect.getPosition());
     bg.setOrigin(border.getOrigin());
     bg.setPosition(border.getPosition());
