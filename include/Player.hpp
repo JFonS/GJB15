@@ -18,7 +18,7 @@ public:
     bool isPlayerOne, lookingRight;
     bool levelCompleted;
     RectangleShape* hitBox;
-    float hitOffset;
+    float hitXOffset, hitYOffset;
     void setHitbox();
     bool hitting(const Block *b);
     void gotoPortal(const Block *destiny);
