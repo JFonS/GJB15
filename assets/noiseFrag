@@ -28,11 +28,12 @@ void main()
     {
 	    float redA = clamp(gl_FragColor.a * lightDist/distance(p1,gl_FragCoord.xy) / mag - 0.25, 0.0, 0.3);
 	    float blueA = clamp(gl_FragColor.a * lightDist/distance(p2,gl_FragCoord.xy) / mag - 0.25, 0.0, 0.3);
-	    redA *= 5.0f; blueA *= 5.0f;
+	    redA *= 5.0f; 
+	    blueA *= 5.0f;
 	    vec4 red = vec4(1.0, 0.0 , 0.0, redA), blue = vec4(0.0, 0.0, 1.0, blueA);
 	    
-	    vec4 chachi = gl_FragColor; float pistachi = 0.5f;
-	    gl_FragColor += multiply(red, chachi) * pistachi;
+	    vec4 chachi = gl_FragColor;  float pistachi =  0.5; //Resaltem botons i tal(asdl)
+ 	    gl_FragColor += multiply(red, chachi) * pistachi;
 	    gl_FragColor += multiply(blue, chachi) * pistachi;
     }
 
@@ -40,6 +41,8 @@ void main()
     vec4 col = gl_FragColor * clamp(iluminationRad / distance(p1,gl_FragCoord.xy), 0.6, 1.5);
     col *= clamp(iluminationRad / distance(p2,gl_FragCoord.xy), 0.6, 1.5);
     gl_FragColor = vec4(col.rgb, gl_FragColor.a);
+    if(originalColor.r > 0.4) gl_FragColor *= 2.5;
+    if(originalColor.r > 0.6 && originalColor.g > 0.6 && originalColor.b > 0.6) gl_FragColor *= 5.0;
     
 }
 

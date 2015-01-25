@@ -18,7 +18,7 @@
 using namespace std;
 using namespace sf;
 
-#define NUM_LEVELS 3
+#define NUM_LEVELS 4
 
 class Level;
 class Intro;
