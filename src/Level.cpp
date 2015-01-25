@@ -155,11 +155,11 @@ void Level::onUpdate(float dt)
     if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) bad1 = bad2 = true;
 
     if (camera.getInverse().transformPoint(player1->getPosition()).x + player1->getGlobalBounds().width/2 < 0.0) {
-        bad1 = true;
+        player1->energy -= Player::regenSpeed * 3; if(player1->energy < 0.0f) player1->energy = 0.0f;
     }
 
     if (camera.getInverse().transformPoint(player2->getPosition()).x + player2->getGlobalBounds().width/2 < 0.0) {
-        bad2 = true;
+        player2->energy -= Player::regenSpeed*3; if(player2->energy < 0.0f) player2->energy = 0.0f;;
     }
 
     if (bad1) {
