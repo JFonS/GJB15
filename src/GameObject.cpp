@@ -45,19 +45,6 @@ void GameObject::onDraw(RenderTarget& target, const Transform& transform)
         rs.shader = Block::shad;
         target.draw(*this, rs);
     }
-    else if(name == "menuBG")
-    {
-        RenderStates rs;
-        rs.transform = transform;
-        if(MainMenu::shad != nullptr)
-        {
-            rs.shader = MainMenu::shad;
-            MainMenu::shad->setParameter("tex", *getTexture());
-            MainMenu::shad->setParameter("time", Level::c);
-            MainMenu::shad->setParameter("mousePos", Vector2f(Mouse::getPosition(*PeezyWin::window).x, PeezyWin::winHeight - Mouse::getPosition().y + 50.0f));
-        }
-        target.draw(*this, rs);
-    }
     else target.draw(*this, transform);
 }
 
