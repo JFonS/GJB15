@@ -155,25 +155,25 @@ void Level::onUpdate(float dt)
     if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) bad1 = bad2 = true;
 
     if (camera.getInverse().transformPoint(player1->getPosition()).x + player1->getGlobalBounds().width/2 < 0.0) {
-        player1->energy -= Player::regenSpeed * 3; if(player1->energy < 0.0f) player1->energy = 0.0f;
+        player1->energy -= Player::regenSpeed * 3 * dt; if(player1->energy < 0.0f) player1->energy = 0.0f;
         bad1 = true;
     }
 
     if (camera.getInverse().transformPoint(player2->getPosition()).x + player2->getGlobalBounds().width/2 < 0.0) {
-        player2->energy -= Player::regenSpeed*3; if(player2->energy < 0.0f) player2->energy = 0.0f;;
+        player2->energy -= Player::regenSpeed*3*dt; if(player2->energy < 0.0f) player2->energy = 0.0f;;
         bad2 = true;
     }
 
     if (bad1) {
-        player1->energy -= Player::regenSpeed; if(player1->energy < 0.0f) player1->energy = 0.0f;
+        player1->energy -= Player::regenSpeed*dt; if(player1->energy < 0.0f) player1->energy = 0.0f;
     } else {
-         player1->energy = min(player1->energy + Player::regenSpeed, Player::maxEnergy);
+         player1->energy = min(player1->energy + Player::regenSpeed*dt, Player::maxEnergy);
     }
 
     if (bad2) {
-        player2->energy -= Player::regenSpeed; if(player2->energy < 0.0f) player2->energy = 0.0f;
+        player2->energy -= Player::regenSpeed*dt; if(player2->energy < 0.0f) player2->energy = 0.0f;
     } else {
-        player2->energy = min(player2->energy + Player::regenSpeed, Player::maxEnergy);
+        player2->energy = min(player2->energy + Player::regenSpeed*dt, Player::maxEnergy);
     }
 
     if(player1->energy <= 0.0f || player2->energy <= 0.0f)
