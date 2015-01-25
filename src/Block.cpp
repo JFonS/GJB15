@@ -1,9 +1,39 @@
 #include "../include/Block.hpp"
 
+Texture* Block::noiseTex = nullptr;
+Shader* Block::shad = nullptr;
+
 Block::Block(int type)
 {
+    if(noiseTex == nullptr)
+    {
+        noiseTex = new Texture();
+        noiseTex->loadFromFile("assets/noise.png");
+    }
+
+    noiseCoords = Vector2f(float(rand() % 1000)/1200, float(rand() % 1000)/1200);
+    noiseAlpha = float(rand()%100)/300 + 0.1f;
+
+
+    if(isDoor(type))
+    {
+        noiseCoords = Vector2f(0.5f, 0.5f);
+        noiseAlpha = 0.3f;
+    }
+    else if(type == DEATH)
+    {
+        noiseCoords = Vector2f(0.5f, 0.5f);
+        noiseAlpha = 0.3f;
+    }
+
     enabled = true;
     this->type = type;
+
+    if(shad == nullptr)
+    {
+        shad = new Shader();
+        shad->loadFromFile("assets/noiseFrag", Shader::Fragment);
+    }
 }
 
 Block::~Block()
@@ -53,8 +83,16 @@ void Block::onUpdate(float dt)
 void Block::onDraw(RenderTarget& target, const Transform& transform)
 {
     Level *l = (Level*) PeezyWin::peekScene();
-
-    if(isDoor(GetType()))
+    shad->setParameter("tex", *getTexture());
+    shad->setParameter("noiseTex", *noiseTex);
+    shad->setParameter("isBG", 0.0f);
+    shad->setParameter("noiseCoords", noiseCoords);
+    shad->setParameter("alpha", noiseAlpha);
+    Vector2f p2Center = Vector2f(l->player2->getGlobalBounds().left + l->player2->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player2->getGlobalBounds().top + l->player2->getGlobalBounds().height/2));
+    Vector2f p1Center = Vector2f(l->player1->getGlobalBounds().left + l->player1->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player1->getGlobalBounds().top + l->player1->getGlobalBounds().height/2));
+    shad->setParameter("p1", l->camera.getInverse() * p1Center);
+    shad->setParameter("p2", l->camera.getInverse() * p2Center);
+    if(isDoor(type))
     {
         bool nothing = true;
         for(Block *b : l->blocks)
@@ -68,10 +106,10 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
         if(nothing) enabled = true; //cerramos puerta
     }
 
-    if(enabled || isPalanca(type) || isButton(type) || isPortal(type))
-    {
-        GameObject::onDraw(target, transform);
-    }
+    RenderStates rs;
+    rs.transform = transform;
+    if(type != LIGHT) rs.shader = shad;
+    if( !(isDoor(type) && !enabled) ) target.draw(*this, rs);
 
     if(isPalanca(type) && enabled)
     {
@@ -88,7 +126,8 @@ int Block::GetType()
     return type;
 }
 
-int Block::getObjectIndex(int type) {
+int Block::getObjectIndex(int type)
+{
     if (isDoor(type)) return type - DOOR_START;
     if (isPalanca(type)) return type - PALANCA_START;
     if (isButton(type)) return type - BUTTON_START;
