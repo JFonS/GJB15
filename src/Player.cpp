@@ -98,7 +98,7 @@ bool Player::hitting(const Block *b)
 void Player::gotoPortal(const Block *destiny)
 {
     setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
-    //updateHitbox();
+    updateHitbox();
     if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
     ySpeed *= -1.0f;
 }
@@ -159,7 +159,6 @@ void Player::onDraw(RenderTarget& target, const Transform& transform)
   Level *l = (Level*) PeezyWin::peekScene();
   sf::CircleShape shape(Level::maxDistance);
   Vector2f v = (l->player1->getPosition() - l->player2->getPosition());
-  float dist = sqrt(v.x*v.x + v.y*v.y);
   float alphaIndex = 0.3f;
   float minAlpha = 0.2f;
 

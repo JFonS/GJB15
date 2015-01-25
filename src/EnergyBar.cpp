@@ -1,27 +1,31 @@
 #include "../include/EnergyBar.hpp"
 
-EnergyBar::EnergyBar(Player *p) : GameObject()
+EnergyBar::EnergyBar() : GameObject()
 {
-    attachedPlayer = p;
-    rectBorder = RectangleShape(Vector2f(BAR_WIDTH, BAR_HEIGHT));
-    rectBorder.setFillColor(Color::Transparent);
-    rectBorder.setOutlineThickness(BAR_BORDER_THICKNESS);
-    rectBorder.setOutlineColor(Color::White);
-    rectEnergy = RectangleShape(Vector2f(BAR_WIDTH, BAR_HEIGHT));
-    rectEnergy.setFillColor(Color::Green);
+    shad = new Shader();
+    shad->loadFromFile("assets/energyBarFrag", Shader::Fragment);
 
-    rectBorder.setPosition(1200.0f - BAR_WIDTH - 50.0f, attachedPlayer->isPlayerOne ? 80.0f : 400.0f);
-    rectEnergy.setPosition(1200.0f - BAR_WIDTH - 50.0f, (attachedPlayer->isPlayerOne ? 80.0f : 400.0f));
+    Texture *t = new Texture();
+    t->create(10, 10);
+    rect.setTexture(t);
+    shad->setParameter("tex", *t);
+    rect = RectangleShape(Vector2f(BAR_WIDTH, BAR_HEIGHT));
+    rect.setOrigin(Vector2f(BAR_WIDTH/2, BAR_HEIGHT/2));
+    rect.setPosition(PeezyWin::winWidth / 2, 25.0f);
 }
 
 void EnergyBar::onUpdate(float dt)
 {
-    rectEnergy.setScale(max(0.0f, (attachedPlayer->energy / attachedPlayer->maxEnergy)), 1.0f);
+    Level *l = (Level*) PeezyWin::peekScene();
+    Player *p1 = l->player1, *p2 = l->player2;
+    float minimumEnergy = min(p1->energy, p2->energy);
+    rect.setScale(max(0.0f, (minimumEnergy / Player::maxEnergy)), 1.0f);
 }
 
 void EnergyBar::onDraw(RenderTarget &target, const Transform &transform)
 {
-    target.draw(rectBorder);
-    target.draw(rectEnergy);
+    RenderStates rs;
+    rs.shader = shad;
+    target.draw(rect, rs);
 }
 

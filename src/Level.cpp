@@ -52,12 +52,12 @@ Level::Level(int levelNum) : Scene("level")
     player2->setIndex(100);
     addChild(player2);
 
-    EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);
-    addChild(b1); addChild(b2);
+    EnergyBar *eb = new EnergyBar();
+    addChild(eb);
 
     player1->setIndex(90); player2->setIndex(90);
     player1->setPosition(100.0f, 100.0f);
-    b1->setIndex(200); b2->setIndex(200);
+    eb->setIndex(200);
 
     GameObject *bg = new GameObject("bg");
     Texture *bgTex = new Texture();
@@ -156,10 +156,12 @@ void Level::onUpdate(float dt)
 
     if (camera.getInverse().transformPoint(player1->getPosition()).x + player1->getGlobalBounds().width/2 < 0.0) {
         player1->energy -= Player::regenSpeed * 3; if(player1->energy < 0.0f) player1->energy = 0.0f;
+        bad1 = true;
     }
 
     if (camera.getInverse().transformPoint(player2->getPosition()).x + player2->getGlobalBounds().width/2 < 0.0) {
         player2->energy -= Player::regenSpeed*3; if(player2->energy < 0.0f) player2->energy = 0.0f;;
+        bad2 = true;
     }
 
     if (bad1) {

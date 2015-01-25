@@ -11,7 +11,7 @@
 #include "PEvent.hpp"
 #include "Debug.hpp"
 
-#define BAR_WIDTH 100.0f
+#define BAR_WIDTH 200.0f
 #define BAR_HEIGHT 25.0f
 #define BAR_BORDER_THICKNESS 3.0f
 
@@ -24,10 +24,10 @@ class EnergyBar : public GameObject
 {
 public:
 
-    Player *attachedPlayer;
-    RectangleShape rectBorder, rectEnergy;
+    RectangleShape rect;
+    Shader *shad;
 
-    EnergyBar(Player *p);
+    EnergyBar();
 
     virtual void onUpdate(float dt);
     virtual void onDraw(RenderTarget& target, const Transform& transform);
