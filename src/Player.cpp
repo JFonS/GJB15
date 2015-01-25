@@ -33,7 +33,7 @@ void Player::setHitbox() {
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
-    hitBox->setPosition(getPosition().x + hitXOffset, getPosition().y);
+    updateHitbox();
 
     checkCollisions(dt);
 
@@ -68,7 +68,7 @@ void Player::onKeyDown(PEvent &e) {
 void Player::hitFloor(float height)
 {
     setPosition(getPosition().x, height - getGlobalBounds().height);
-    hitBox->setPosition(getPosition().x + hitXOffset, getPosition().y);
+    updateHitbox();
     ySpeed = 0.0;
     canJump = true;
 }
@@ -98,7 +98,7 @@ bool Player::hitting(const Block *b)
 void Player::gotoPortal(const Block *destiny)
 {
     setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
-    updateHitbox();
+    //updateHitbox();
     if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
     ySpeed *= -1.0f;
 }
