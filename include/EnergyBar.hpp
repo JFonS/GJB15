@@ -24,8 +24,7 @@ class EnergyBar : public GameObject
 {
 public:
 
-    Sprite rect;
-    RectangleShape border, bg;
+    Sprite rect, border, bg;
     Shader *shad;
 
     EnergyBar();

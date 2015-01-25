@@ -92,8 +92,8 @@ bool Player::hitting(const Block *b)
     Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
     pRect.height += 2.0f;
     Rect<float> oRect = b->getGlobalBounds();
-    oRect.width = 5.0;
-    oRect.left += 22.5;
+    oRect.width = 15.0f;
+    oRect.left += 27.5f;
 
     return pRect.intersects(oRect);
 }

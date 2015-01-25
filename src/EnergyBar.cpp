@@ -2,22 +2,18 @@
 
 EnergyBar::EnergyBar() : GameObject()
 {
-    border = RectangleShape(Vector2f(BAR_WIDTH + 2.0f, BAR_HEIGHT + 1.0f));
-    border.setFillColor(Color::Transparent);
-    border.setOutlineColor(Color::White);
-    border.setOutlineThickness(2.0f);
+    Texture *tRect   = new Texture; tRect->loadFromFile("assets/");
+    Texture *tBorder = new Texture; tRect->loadFromFile("assets/");
+    Texture *tBG     = new Texture; tRect->loadFromFile("assets/");
 
-    bg = RectangleShape(border.getSize());
-    bg.setFillColor(Color::Black);
-    bg.setOutlineColor(Color::Transparent);
+    rect = Sprite(*tRect);
+    border = Sprite(*tBorder);
+    bg = Sprite(*tBG);
 
     shad = new Shader();
     shad->loadFromFile("assets/energyBarFrag", Shader::Fragment);
 
-    Texture *t = new Texture(); t->create(BAR_WIDTH, BAR_HEIGHT);
-    shad->setParameter("tex", Shader::CurrentTexture);
-    rect = Sprite(*t);
-    rect.setTextureRect(IntRect(0, 0, BAR_WIDTH, BAR_HEIGHT));
+    rect.setOrigin();
     rect.setPosition(PeezyWin::winWidth / 2, 25.0f);
 
     border.setPosition(rect.getPosition());
