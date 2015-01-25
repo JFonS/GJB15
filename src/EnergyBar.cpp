@@ -2,23 +2,20 @@
 
 EnergyBar::EnergyBar() : GameObject()
 {
-    Texture *tRect   = new Texture; tRect->loadFromFile("assets/");
-    Texture *tBorder = new Texture; tRect->loadFromFile("assets/");
-    Texture *tBG     = new Texture; tRect->loadFromFile("assets/");
+    Texture *tBorder = new Texture(); tBorder->loadFromFile("assets/pilaoutline.png");
+    Texture *tRect   = new Texture(); tRect->loadFromFile("assets/pilagreen.png");
+    Texture *tBG     = new Texture(); tBG->loadFromFile("assets/pilabuida");
 
-    rect = Sprite(*tRect);
     border = Sprite(*tBorder);
+    rect = Sprite(*tRect);
     bg = Sprite(*tBG);
 
     shad = new Shader();
     shad->loadFromFile("assets/energyBarFrag", Shader::Fragment);
 
-    rect.setOrigin();
-    rect.setPosition(PeezyWin::winWidth / 2, 25.0f);
-
+    rect.setPosition(PeezyWin::winWidth / 2 - tRect->getSize().x / 2, 25.0f);
     border.setPosition(rect.getPosition());
-    bg.setOrigin(border.getOrigin());
-    bg.setPosition(border.getPosition());
+    bg.setPosition(rect.getPosition());
 }
 
 void EnergyBar::onUpdate(float dt)
@@ -31,10 +28,10 @@ void EnergyBar::onUpdate(float dt)
 
 void EnergyBar::onDraw(RenderTarget &target, const Transform &transform)
 {
-    //target.draw(bg);
     RenderStates rs;
     rs.shader = shad;
-    target.draw(rect, rs);
+    target.draw(bg);
+    target.draw(rect);
     target.draw(border);
 }
 
