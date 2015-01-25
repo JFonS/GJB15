@@ -14,11 +14,16 @@ MainMenu::MainMenu() : Scene("mainMenu")
     GameObject *menuBG = new GameObject("menuBG");
     menuBG->setTexture("assets/menu.png");
 
+    PeezyWin::menuMusic.play();
     ButtonText *playButton = new ButtonText();
     playButton->setString("PLAY");
     float w = playButton->getGlobalBounds().width;
     playButton->setPosition(PeezyWin::winWidth/2-w/2, PeezyWin::winHeight/2);
-    playButton->downFunction = [](){PeezyWin::changeScene(PeezyWin::intro);};
+    playButton->downFunction = [](){
+        PeezyWin::changeScene(PeezyWin::intro);
+        PeezyWin::menuMusic.stop();
+        PeezyWin::gameMusic.play();
+    };
 
     addChild(playButton);
     addChild(menuBG);
@@ -31,6 +36,8 @@ void MainMenu::onKeyDown(PEvent &e)
     if(e.key.code == Keyboard::Space)
     {
         PeezyWin::changeScene(PeezyWin::intro);
+        PeezyWin::menuMusic.stop();
+        PeezyWin::gameMusic.play();
     }
 }
 

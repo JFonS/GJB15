@@ -1,6 +1,8 @@
 #include "../include/PeezyWin.hpp"
 
 MainMenu *PeezyWin::mainMenu = nullptr;
+Music PeezyWin::menuMusic, PeezyWin::gameMusic;
+
 Intro *PeezyWin::intro = nullptr;
 SceneStack PeezyWin::scenes = SceneStack();
 RenderWindow* PeezyWin::window = nullptr;
@@ -16,6 +18,9 @@ void PeezyWin::exit()
 PeezyWin::PeezyWin(Vector2i size)
 {
     window = new RenderWindow(VideoMode(size.x, size.y), "", Style::Titlebar | Style::Close);
+    menuMusic.openFromFile("assets/music/menu.wav");
+    gameMusic.openFromFile("assets/music/game.wav");
+    menuMusic.setVolume(30);
     startUp();
 }
 
