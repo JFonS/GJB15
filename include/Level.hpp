@@ -6,8 +6,10 @@
 #include "Scene.hpp"
 #include "Block.hpp"
 #include "Player.hpp"
+#include "Debug.hpp"
 #include "EnergyBar.hpp"
 #include <string>
+#include <string.h>
 #include <iostream>
 #include <fstream>
 
@@ -31,11 +33,11 @@ private:
     Texture *tileTextures;
     string name;
     vector<int> tiles;
-    static float cameraSpeed;
 
     void onUpdate(float dt);
 
 public:
+    float cameraSpeed;
     static float c;
     static float maxDistance;
 

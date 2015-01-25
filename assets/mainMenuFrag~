@@ -1,0 +1,17 @@
+uniform sampler2D tex;
+uniform vec2 mousePos;
+uniform float time;
+
+#define PI 3.1415926535897932384643383
+
+void main()
+{
+    vec4 originalColor = texture2D(tex, gl_TexCoord[0].xy);
+    vec2 v = (gl_FragCoord.xy - mousePos);
+    float d = sqrt(v.x*v.x + v.y*v.y); 
+
+    gl_FragColor = mix(originalColor, vec4(abs(sin(time)), 0.0, abs(sin(time + PI)), 1.0), 0.5);
+    gl_FragColor = mix(gl_FragColor, vec4(0), 200.0f/d);
+    gl_FragColor.a = 1.0f;
+}
+

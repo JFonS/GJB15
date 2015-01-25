@@ -1,11 +1,12 @@
 #include "../include/Level.hpp"
 
 float Level::c = 0.0f;
-float Level::cameraSpeed = 60.0;
 float Level::maxDistance = 200.0;
 
 Level::Level(int levelNum) : Scene("level")
 {
+    cameraSpeed = 60.0;
+
     name = "level" + to_string(levelNum);
     string levelPath = "assets/level" + to_string(levelNum) + ".tmx";
     DbgLog(levelPath);
@@ -38,7 +39,7 @@ Level::Level(int levelNum) : Scene("level")
         if(currentx >= LEVEL_WIDTH) { currenty += TILE_HEIGHT; currentx = 0; }
     }
 
-    player1 =  new Player(Keyboard::Up,Keyboard::Left,Keyboard::Right);
+    player1 =  new Player(Keyboard::Up, Keyboard::Left, Keyboard::Right);
     player1->loadSpriteSheet("assets/pluslyreduced.png", 16);
     player1->isPlayerOne = true;
     player1->setHitbox();
@@ -99,6 +100,19 @@ void Level::loadFromFile(string tilesetFile, string tileMapFile)
         {
             int nextTile; char c;
             while(iss >> nextTile) { tiles.push_back(nextTile); iss >> c;}
+        }
+        else if(firstChar == ' ' || firstChar == '<')
+        {
+            int inicio = line.find("cameraSpeed\"");
+            if(inicio > 0)
+            {
+                inicio += strlen("cameraSpeed\"");
+                inicio = line.find("value", inicio + 1) + strlen("value=\"");
+                int final = line.find('"', inicio+1);
+                string camSpeedString = line.substr(inicio, final - inicio);
+                DbgLog("===" << camSpeedString << "===");
+                cameraSpeed = atoi(camSpeedString.c_str());
+            }
         }
     }
 
