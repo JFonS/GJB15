@@ -12,6 +12,8 @@ using namespace sf;
 class MainMenu : public Scene
 {
 public:
+
+    static Shader *shad;
     MainMenu();
     virtual void onKeyDown(PEvent &e);
 };

@@ -1,7 +1,15 @@
 #include "../include/MainMenu.hpp"
 
+Shader* MainMenu::shad = nullptr;
+
 MainMenu::MainMenu() : Scene("mainMenu")
 {
+    if(shad == nullptr)
+    {
+        shad = new Shader();
+        shad->loadFromFile("assets/mainMenuFrag", Shader::Fragment);
+    }
+
     GameObject *menuBG = new GameObject("menuBG");
     menuBG->setTexture("assets/menu.png");
 
