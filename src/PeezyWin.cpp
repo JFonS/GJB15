@@ -1,17 +1,17 @@
 #include "../include/PeezyWin.hpp"
-#include "../include/Debug.hpp"
-#include "../include/GameObject.hpp"
-#include "../include/PText.hpp"
-#include "../include/ButtonText.hpp"
-#include "../include/Player.hpp"
 
-Scene *PeezyWin::mainMenu = nullptr;
-Level *PeezyWin::level1 = nullptr;
+MainMenu *PeezyWin::mainMenu = nullptr;
 Intro *PeezyWin::intro = nullptr;
 SceneStack PeezyWin::scenes = SceneStack();
 RenderWindow* PeezyWin::window = nullptr;
+int PeezyWin::currentLevel = 1;
 
 int PeezyWin::winHeight = 700, PeezyWin::winWidth = 1200;
+
+void PeezyWin::exit()
+{
+    window->close();
+}
 
 PeezyWin::PeezyWin(Vector2i size)
 {
@@ -28,9 +28,38 @@ PeezyWin::~PeezyWin()
     }
 }
 
+bool PeezyWin::goToFirstLevel()
+{
+    currentLevel = 0;
+    return goToNextLevel();
+}
+
+bool PeezyWin::goToNextLevel()
+{
+    ++currentLevel;
+    if(currentLevel <= NUM_LEVELS)
+    {
+        Level *l = new Level(currentLevel);
+        PeezyWin::changeScene(l);
+        return true;
+    } else --currentLevel;
+    return false;
+}
+
+bool PeezyWin::goToPreviousLevel()
+{
+    --currentLevel;
+    if(currentLevel >= 1)
+    {
+        Level *l = new Level(currentLevel);
+        PeezyWin::changeScene(l);
+        return true;
+    } else ++currentLevel;
+    return false;
+}
+
 void PeezyWin::pushScene(Scene* sc)
 {
-  DbgLog("Pushed scene: " << sc->getName());
   scenes.push(sc);
 }
 
@@ -51,20 +80,8 @@ Scene* PeezyWin::peekScene(){
 
 void PeezyWin::startUp()
 {
-    mainMenu = new Scene("mainMenu");
-    GameObject *menuBG = new GameObject("menuBG");
-    menuBG->setTexture("assets/menu.png");
-    ButtonText *playButton = new ButtonText();
-    playButton->setString("PLAY");
-    float w = playButton->getGlobalBounds().width;
-    playButton->setPosition(PeezyWin::winWidth/2-w/2, PeezyWin::winHeight/2);
-    playButton->downFunction = [](){PeezyWin::changeScene(PeezyWin::intro);};
-    mainMenu->addChild(playButton);
-    mainMenu->addChild(menuBG);
-    menuBG->setIndex(-1);
+    mainMenu = new MainMenu();
     this->pushScene(mainMenu);
-
-    level1 = new Level("level2");
 
     intro = new Intro();
 }
@@ -79,12 +96,19 @@ void PeezyWin::_loop() {
     while (window->isOpen()) {
         Event event;
         while (window->pollEvent(event)) {
-            if (event.type == Event::Closed) {
-                window->close();DbgLog("closed");
+            if (event.type == Event::Closed)
+            {
+                window->close();
                 return;
             }
-            else if (peekScene() != NULL) {
+            else if (peekScene() != NULL)
+            {
               PEvent e(event);
+              if(e.type == e.EventType::KeyPressed)
+              {
+                  if(e.key.code == Keyboard::Escape)
+                    window->close();
+              }
               peekScene()->onEvent(e);
             }
         }
