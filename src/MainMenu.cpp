@@ -1,5 +1,6 @@
 #include "../include/MainMenu.hpp"
 
+float MainMenu::c = 0.0f;
 Shader* MainMenu::shad = nullptr;
 
 MainMenu::MainMenu() : Scene("mainMenu")
@@ -38,4 +39,9 @@ void MainMenu::onKeyDown(PEvent &e)
         PeezyWin::menuMusic.stop();
         PeezyWin::gameMusic.play();
     }
+}
+
+void MainMenu::onUpdate(float dt)
+{
+    c += dt;
 }
