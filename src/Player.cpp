@@ -20,7 +20,7 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     timePerFrame = 0.05f;
     lookingRight = true;
     shad = new Shader();
-    shad->loadFromFile("assets/frag", Shader::Fragment);
+    shad->loadFromFile("assets/circleFrag", Shader::Fragment);
     levelCompleted = false;
     stop();
 }

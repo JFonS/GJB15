@@ -17,14 +17,16 @@ Intro::Intro() : Scene("intro")
     addChild(introClip);
 }
 
-void Intro::onUpdate(float dt) {
+void Intro::onUpdate(float dt)
+{
     if (introClip->currentFrame == 6)
-        PeezyWin::changeScene(PeezyWin::level1);
+        PeezyWin::goToFirstLevel();
 }
 
-void Intro::onKeyDown(PEvent &e) {
+void Intro::onKeyDown(PEvent &e)
+{
     if(e.key.code == Keyboard::Space)
     {
-        PeezyWin::changeScene(PeezyWin::level1);
+        PeezyWin::goToFirstLevel();
     }
 }

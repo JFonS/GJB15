@@ -4,10 +4,12 @@ float Level::c = 0.0f;
 float Level::cameraSpeed = 60.0;
 float Level::maxDistance = 200.0;
 
-Level::Level(string levelName) : Scene(levelName)
+Level::Level(int levelNum) : Scene("level")
 {
-    name = levelName;
-    loadFromFile("assets/newtileset.png", "assets/level3.tmx");
+    name = "level" + to_string(levelNum);
+    string levelPath = "assets/level" + to_string(levelNum) + ".tmx";
+    DbgLog(levelPath);
+    loadFromFile("assets/newtileset.png", levelPath);
 
     Image img = Image();
     img.loadFromFile("assets/newtileset.png");
@@ -76,14 +78,13 @@ Level::~Level()
 
 void Level::Reset()
 {
-    Level *l = new Level(name);
+    Level *l = new Level(PeezyWin::currentLevel);
     PeezyWin::changeScene(l);
 }
 
 void Level::Complete()
 {
-    DbgLog("LEVEL COMPLETE");
-    Reset();
+    if(!PeezyWin::goToNextLevel()) Reset();
 }
 
 void Level::loadFromFile(string tilesetFile, string tileMapFile)
@@ -113,6 +114,15 @@ void Level::onKeyDown(PEvent &e)
     {
         Reset();
     }
+    else if(e.key.code == Keyboard::P)
+    {
+        if(!PeezyWin::goToNextLevel()) Reset();
+    }
+    else if(e.key.code == Keyboard::O)
+    {
+        if(!PeezyWin::goToPreviousLevel()) Reset();
+    }
+
 }
 
 void Level::onUpdate(float dt)

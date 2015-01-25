@@ -5,7 +5,7 @@ PText::PText() : outline(true), blowing(false), flickering(false), visibleFlicke
                  outlineColor(Color::Black)
 {
     font =  new Font();
-    if(not font->loadFromFile("assets/arial.ttf")) DbgError("Error loading the font 'assets/arial.ttf'.");
+    if(not font->loadFromFile("assets/HFF Black Steel.ttf")) DbgError("Error loading the font 'assets/arial.ttf'.");
     else setFont(*font);
 
     fClock = new Clock();

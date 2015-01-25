@@ -42,8 +42,7 @@ public:
     Player *player1, *player2;
     vector<Block*> blocks;
 
-
-    Level(string levelName);
+    Level(int levelNum);
     ~Level();
 
     void Reset();

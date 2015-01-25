@@ -2,6 +2,8 @@
 #define	GAMEOBJECT_HPP
 
 #include <SFML/Graphics.hpp>
+#include "ResourceManager.hpp"
+#include "Debug.hpp"
 #include "Node.hpp"
 #include <string>
 #include <map>

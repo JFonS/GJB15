@@ -28,8 +28,12 @@ class Block : public GameObject
 {
 private:
     int type;
+    Vector2f noiseCoords;
+    float noiseAlpha;
 
 public:
+    static Texture *noiseTex;
+    static Shader *shad;
     bool enabled;
 
     Block(int type);
