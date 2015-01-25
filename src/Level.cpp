@@ -1,7 +1,7 @@
 #include "../include/Level.hpp"
 
 float Level::c = 0.0f;
-float Level::maxDistance = 200.0;
+float Level::maxDistance = 150.0;
 
 Level::Level(int levelNum) : Scene("level")
 {
