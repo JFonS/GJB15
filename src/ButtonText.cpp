@@ -2,7 +2,7 @@
 
 
 ButtonText::ButtonText() : PText(),
-                            outlineColorIdle(Color::Red), outlineColorOver(Color::Green),
+                            outlineColorIdle(Color::Red), outlineColorOver(Color::White),
                             outlineColorDown(Color::Blue), colorIdle(Color::Black), colorOver(Color::Black),
                             colorDown(Color::Black), outlineIdle(false), outlineOver(true), outlineDown(true)
 {
@@ -21,6 +21,7 @@ void ButtonText::onMouseDown(PEvent &e) { if(mouseIsOver) goToDown(); }
 void ButtonText::onMouseUp(PEvent &e) { if(mouseIsOver) goToOver(); else goToIdle(); }
 
 void ButtonText::goToIdle() {
+
     setString(textIdle);
     setOutline(outlineIdle);
     setOutlineColor(outlineColorIdle);

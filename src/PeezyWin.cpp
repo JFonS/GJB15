@@ -20,6 +20,8 @@ PeezyWin::PeezyWin(Vector2i size)
     window = new RenderWindow(VideoMode(size.x, size.y), "", Style::Titlebar | Style::Close);
     menuMusic.openFromFile("assets/music/menu.wav");
     gameMusic.openFromFile("assets/music/game.wav");
+    menuMusic.setLoop(true);
+    gameMusic.setLoop(true);
     menuMusic.setVolume(30);
     startUp();
 }
