@@ -40,11 +40,13 @@ Level::Level(string levelName) : Scene(levelName)
     player1->loadSpriteSheet("assets/pluslyreduced.png", 16);
     player1->isPlayerOne = true;
     player1->setHitbox();
+    player1->setIndex(100);
     addChild(player1);
 
     player2 =  new Player(Keyboard::W,Keyboard::A,Keyboard::D);
     player2->loadSpriteSheet("assets/lesslyreduced.png", 16);
     player2->setHitbox();
+    player2->setIndex(100);
     addChild(player2);
 
     EnergyBar *b1 = new EnergyBar(player1), *b2 = new EnergyBar(player2);

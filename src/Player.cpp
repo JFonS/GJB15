@@ -10,7 +10,7 @@ float Player::regenSpeed = 3.0;
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
 {
-    hitBox = new RectangleShape(Vector2f(50.0,100.0));
+    hitBox = new RectangleShape(Vector2f(40.0,70.0));
 
     setPosition(100, 400);
     addKeyFrame(0, "runRight");
@@ -26,13 +26,14 @@ Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
 }
 
 void Player::setHitbox() {
-    hitOffset = getLocalBounds().width/2 - hitBox->getLocalBounds().width/2;
+    hitXOffset = getLocalBounds().width/2 - hitBox->getLocalBounds().width/2;
+    hitYOffset = getLocalBounds().height - hitBox->getLocalBounds().height;
 }
 
 void Player::onUpdate(float dt)
 {
     move(xSpeed * dt, ySpeed * dt);
-    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
+    hitBox->setPosition(getPosition().x + hitXOffset, getPosition().y);
 
     checkCollisions(dt);
 
@@ -67,7 +68,7 @@ void Player::onKeyDown(PEvent &e) {
 void Player::hitFloor(float height)
 {
     setPosition(getPosition().x, height - getGlobalBounds().height);
-    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
+    hitBox->setPosition(getPosition().x + hitXOffset, getPosition().y);
     ySpeed = 0.0;
     canJump = true;
 }
@@ -96,7 +97,8 @@ bool Player::hitting(const Block *b)
 
 void Player::gotoPortal(const Block *destiny)
 {
-    setPosition(destiny->getPosition() - Vector2f(hitOffset, getGlobalBounds().height + 3.0f));
+    setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
+    updateHitbox();
     if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
     ySpeed *= -1.0f;
 }
@@ -107,7 +109,7 @@ void Player::onKeyUp(PEvent &e)
 }
 
 void Player::updateHitbox(){
-    hitBox->setPosition(getPosition().x + hitOffset, getPosition().y);
+    hitBox->setPosition(getPosition().x + hitXOffset, getPosition().y + hitYOffset);
 }
 
 void Player::checkCollisions(float dt)
@@ -131,10 +133,10 @@ void Player::checkCollisions(float dt)
                 hitBox->move(0.0,ySpeed * dt * mult);
                 //PROBLEMA EN LES X
                 if (xSpeed > 0) {
-                    setPosition(oRect.left - pRect.width - hitOffset, getPosition().y);
+                    setPosition(oRect.left - pRect.width - hitXOffset, getPosition().y);
                     updateHitbox();
                 } else if(xSpeed < 0){
-                    setPosition(oRect.left + oRect.width - hitOffset, getPosition().y);
+                    setPosition(oRect.left + oRect.width - hitXOffset, getPosition().y);
                     updateHitbox();
                 }
             } else {
