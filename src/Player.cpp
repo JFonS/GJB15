@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 3.0;
+float Player::regenSpeed = 6.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
@@ -92,15 +92,19 @@ bool Player::hitting(const Block *b)
     Rect<float> pRect = hitBox->getGlobalBounds(); // Player rectangle
     pRect.height += 2.0f;
     Rect<float> oRect = b->getGlobalBounds();
+    oRect.width = 5.0;
+    oRect.left += 22.5;
+
     return pRect.intersects(oRect);
 }
 
 void Player::gotoPortal(const Block *destiny)
 {
-    setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
+    setPosition(destiny->getPosition() - Vector2f(hitXOffset+5.0, getGlobalBounds().height + 3.0f));
     updateHitbox();
+    DbgLog(ySpeed);
     if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
-    ySpeed *= -1.0f;
+    ySpeed *= -1.1f;
 }
 
 void Player::onKeyUp(PEvent &e)
