@@ -28,10 +28,13 @@ typedef stack<Scene*> SceneStack;
 
 class PeezyWin {
 public:
+
+  static void playSound(string path);
   static Intro *intro;
   static MainMenu *mainMenu;
   static void exit();
   static int currentLevel;
+  static Music menuMusic, gameMusic;
 
   PeezyWin(Vector2i size);
   virtual ~PeezyWin();

@@ -13,7 +13,6 @@ Intro::Intro() : Scene("intro")
     introClip->timePerFrame = 4.0f;
     introClip->currentFrame = 0;
     introClip->play();
-
     addChild(introClip);
 }
 
