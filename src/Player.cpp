@@ -5,7 +5,7 @@ float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
 float Player::friction = 10.0;
 float Player::maxEnergy = 1000.0;
-float Player::regenSpeed = 6.0;
+float Player::regenSpeed = 150.0;
 
 Player::Player(Keyboard::Key j, Keyboard::Key l, Keyboard::Key r)
     : energy(maxEnergy), isPlayerOne(false), xSpeed(0), ySpeed(0), canJump(false), jumpKey(j), leftKey(l), rightKey(r)
