@@ -33,7 +33,7 @@ private:
 
 public:
     static Texture *noiseTex;
-    static Shader *shad;
+    //static Shader *shad;
     bool enabled;
 
     Block(int type);

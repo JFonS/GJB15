@@ -60,7 +60,7 @@
 MY_CFLAGS = -std=c++11 -Iinclude -I.
 
 # The linker options.
-MY_LIBS   = -L . -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
+MY_LIBS   = -L . -L/home/fonsvilardell/Baixades/glew-1.10.0/lib -L/usr/local/lib -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
 
 # The pre-processor options used by the cpp (man cpp for more).
 CPPFLAGS  = -Wall

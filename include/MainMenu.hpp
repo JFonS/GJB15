@@ -13,7 +13,7 @@ class MainMenu : public Scene
 {
 public:
     static float c;
-    static Shader *shad;
+    //static Shader *shad;
     MainMenu();
     virtual void onKeyDown(PEvent &e);
     virtual void onUpdate(float dt);

@@ -1,7 +1,7 @@
 #include "../include/Block.hpp"
 
 Texture* Block::noiseTex = nullptr;
-Shader* Block::shad = nullptr;
+//Shader* Block::shad = nullptr;
 
 Block::Block(int type)
 {
@@ -29,11 +29,11 @@ Block::Block(int type)
     enabled = true;
     this->type = type;
 
-    if(shad == nullptr)
+    /*if(shad == nullptr)
     {
         shad = new Shader();
         shad->loadFromFile("assets/noiseFrag", Shader::Fragment);
-    }
+    }*/
 }
 
 Block::~Block()
@@ -83,7 +83,7 @@ void Block::onUpdate(float dt)
 void Block::onDraw(RenderTarget& target, const Transform& transform)
 {
     Level *l = (Level*) PeezyWin::peekScene();
-    shad->setParameter("tex", *getTexture());
+    /*shad->setParameter("tex", *getTexture());
     shad->setParameter("noiseTex", *noiseTex);
     shad->setParameter("isBG", 0.0f);
     shad->setParameter("noiseCoords", noiseCoords);
@@ -91,7 +91,7 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
     Vector2f p2Center = Vector2f(l->player2->getGlobalBounds().left + l->player2->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player2->getGlobalBounds().top + l->player2->getGlobalBounds().height/2));
     Vector2f p1Center = Vector2f(l->player1->getGlobalBounds().left + l->player1->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player1->getGlobalBounds().top + l->player1->getGlobalBounds().height/2));
     shad->setParameter("p1", l->camera.getInverse() * p1Center);
-    shad->setParameter("p2", l->camera.getInverse() * p2Center);
+    shad->setParameter("p2", l->camera.getInverse() * p2Center);*/
     if(isDoor(type))
     {
         bool nothing = true;
@@ -108,7 +108,7 @@ void Block::onDraw(RenderTarget& target, const Transform& transform)
 
     RenderStates rs;
     rs.transform = transform;
-    if(type != LIGHT) rs.shader = shad;
+    //if(type != LIGHT) rs.shader = shad;
     if( !(isDoor(type) && !enabled) ) target.draw(*this, rs);
 
     if(isPalanca(type) && enabled)

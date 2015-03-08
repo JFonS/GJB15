@@ -10,8 +10,8 @@ EnergyBar::EnergyBar() : GameObject()
     rect = Sprite(*tRect);
     bg = Sprite(*tBG);
 
-    shad = new Shader();
-    shad->loadFromFile("assets/energyBarFrag", Shader::Fragment);
+    //shad = new Shader();
+    //shad->loadFromFile("assets/energyBarFrag", Shader::Fragment);
 
     rect.setPosition(PeezyWin::winWidth / 2 - tRect->getSize().x / 2, 25.0f);
     border.setPosition(rect.getPosition());
@@ -29,7 +29,7 @@ void EnergyBar::onUpdate(float dt)
 void EnergyBar::onDraw(RenderTarget &target, const Transform &transform)
 {
     RenderStates rs;
-    rs.shader = shad;
+    //rs.shader = shad;
     target.draw(bg);
     target.draw(rect);
     target.draw(border);

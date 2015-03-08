@@ -26,10 +26,10 @@ void GameObject::setTexture(string texture)
 
 void GameObject::onDraw(RenderTarget& target, const Transform& transform)
 {
-    if(name == "bg" && Block::shad != nullptr)
+    /*if(name == "bg")
     {
         Level *l = (Level*) PeezyWin::peekScene();
-        Block::shad->setParameter("tex", *getTexture());
+        /*Block::shad->setParameter("tex", *getTexture());
         Block::shad->setParameter("noiseTex", *Block::noiseTex);
         Block::shad->setParameter("isBG", 1.0f);
         Vector2f noiseCoords = Vector2f(0.0f, 0.0f);
@@ -38,14 +38,15 @@ void GameObject::onDraw(RenderTarget& target, const Transform& transform)
         Vector2f p2Center = Vector2f(l->player2->getGlobalBounds().left + l->player2->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player2->getGlobalBounds().top + l->player2->getGlobalBounds().height/2));
         Vector2f p1Center = Vector2f(l->player1->getGlobalBounds().left + l->player1->getGlobalBounds().width/2, PeezyWin::winHeight - (l->player1->getGlobalBounds().top + l->player1->getGlobalBounds().height/2));
         Block::shad->setParameter("p1", l->camera.getInverse() * p1Center);
-        Block::shad->setParameter("p2", l->camera.getInverse() * p2Center);
+        Block::shad->setParameter("p2", l->camera.getInverse() * p2Center);*
 
         RenderStates rs;
         rs.transform = transform;
-        rs.shader = Block::shad;
+        //rs.shader = Block::shad;
         target.draw(*this, rs);
     }
-    else target.draw(*this, transform);
+    else */
+      target.draw(*this, transform);
 }
 
 const Transform & GameObject::getNodeTransform() { return Sprite::getTransform();}
