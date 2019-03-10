@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <functional>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ public:
     Color outlineColorIdle, outlineColorOver, outlineColorDown,
           colorIdle, colorOver, colorDown;
     bool outlineIdle, outlineOver, outlineDown;
-    function<void()> downFunction;
+    std::function<void()> downFunction;
 
     ButtonText();
     ~ButtonText();

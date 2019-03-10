@@ -1,5 +1,7 @@
 #include  "../include/Player.hpp"
 
+#include <cmath>
+
 float Player::maxRunSpeed = 5000.0;
 float Player::maxJumpSpeed = 800.0;
 float Player::gravity = 2800.0;
@@ -49,7 +51,7 @@ void Player::onUpdate(float dt)
         xSpeed += maxRunSpeed * dt;
         xSpeed = max(xSpeed, -maxRunSpeed);
     }
-    if(abs(xSpeed*dt) < 0.5f) xSpeed = 0.0f;
+    if(std::abs(xSpeed*dt) < 0.005f) xSpeed = 0.0f;
 
     if(xSpeed == 0.0f)
     {
@@ -102,7 +104,7 @@ void Player::gotoPortal(const Block *destiny)
 {
     setPosition(destiny->getPosition() - Vector2f(hitXOffset, getGlobalBounds().height + 3.0f));
     updateHitbox();
-    if(abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
+    if(std::abs(ySpeed) < maxJumpSpeed) ySpeed = maxJumpSpeed;
     ySpeed *= -1.1f;
 }
 

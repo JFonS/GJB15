@@ -1,5 +1,7 @@
 #include "../include/Level.hpp"
 
+#include <cmath>
+
 float Level::c = 0.0f;
 float Level::maxDistance = 150.0;
 
@@ -152,7 +154,7 @@ void Level::onUpdate(float dt)
     float xd = player1->getPosition().x - player2->getPosition().x;
     float yd = player1->getPosition().y - player2->getPosition().y;
 
-    if (sqrt(xd * xd + yd * yd) > 2 * maxDistance) bad1 = bad2 = true;
+    if (std::sqrt(xd * xd + yd * yd) > 2 * maxDistance) bad1 = bad2 = true;
 
     if (camera.getInverse().transformPoint(player1->getPosition()).x + player1->getGlobalBounds().width/2 < 0.0) {
         player1->energy -= Player::regenSpeed * 3 * dt; if(player1->energy < 0.0f) player1->energy = 0.0f;
